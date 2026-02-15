@@ -16,15 +16,11 @@
 
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background-color: #f0f4f0;
-            background-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
+            background-color: transparent; /* تغییر به شفاف برای هماهنگی با وبلاگ */
             color: #1a2e1a;
-        }
-
-        .gold-border {
-            border: 2px solid transparent;
-            border-image: var(--gold-gradient);
-            border-image-slice: 1;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .gold-text {
@@ -34,28 +30,30 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(6, 78, 59, 0.1);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(212, 175, 55, 0.3);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
         }
 
         .tab-btn.active {
-            background: var(--emerald-deep);
-            color: var(--gold-primary);
-            box-shadow: 0 4px 15px rgba(6, 78, 59, 0.3);
+            color: var(--emerald-deep);
+            border-bottom-color: var(--gold-primary);
+            background: rgba(6, 78, 59, 0.02);
         }
 
         .char-cell {
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
-            border: 1px solid #e2e8f0;
-        }
-
-        .char-cell:hover {
-            transform: translateY(-2px);
-            border-color: var(--gold-primary);
+            border: 1px solid #e5e7eb;
+            font-size: 0.75rem;
         }
 
         .char-cell.active-highlight {
@@ -68,346 +66,187 @@
             color: #ef4444;
             font-weight: bold;
             background-color: #fee2e2;
-            padding: 0 2px;
-            border-radius: 2px;
+            padding: 0 1px;
         }
 
-        textarea, select, input {
-            border: 1px solid #d1d5db;
-            transition: all 0.3s;
-        }
-
-        textarea:focus, select:focus, input:focus {
-            outline: none;
-            border-color: var(--gold-primary);
-            ring: 2px rgba(212, 175, 55, 0.2);
+        textarea, select {
+            border: 1px solid #d1d5db !important;
+            width: 100% !important;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: var(--emerald-light);
+            background: var(--gold-primary);
             border-radius: 10px;
         }
     </style>
 </head>
-<body class="min-h-screen py-10 px-4">
+<body>
 
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold gold-text mb-2">محاسبه‌گر هوشمند ابجد</h1>
-            <p class="text-emerald-900 opacity-80">استخراج اسرار اعداد از میان کلمات</p>
-            <div class="h-1 w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto mt-4"></div>
-        </header>
-
-        <!-- Main Card -->
-        <div class="card overflow-hidden">
-            <!-- Tabs -->
-            <div class="flex border-b border-emerald-100 bg-emerald-50/50">
-                <button onclick="switchTab('text-to-num')" id="tab-btn-text" class="tab-btn active flex-1 py-4 font-bold transition-all">تبدیل متن به عدد</button>
-                <button onclick="switchTab('num-to-text')" id="tab-btn-num" class="tab-btn flex-1 py-4 font-bold transition-all">تبدیل عدد به حروف</button>
+    <div class="w-full max-w-full mx-auto p-1 md:p-2">
+        <div class="card">
+            <!-- Header -->
+            <div class="bg-emerald-900 p-2 text-center">
+                <h1 class="text-lg font-bold gold-text">محاسبه‌گر ابجد</h1>
             </div>
 
-            <div class="p-6 md:p-8">
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-100 bg-white">
+                <button onclick="switchTab('text-to-num')" id="tab-btn-text" class="tab-btn active flex-1 py-2 text-xs">متن به عدد</button>
+                <button onclick="switchTab('num-to-text')" id="tab-btn-num" class="tab-btn flex-1 py-2 text-xs">عدد به حروف</button>
+            </div>
+
+            <div class="p-3">
                 <!-- Tab 1: Text to Number -->
-                <div id="text-to-num-content" class="space-y-6">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="flex-1">
-                            <label class="block text-emerald-900 font-bold mb-2">متن خود را وارد کنید:</label>
-                            <textarea id="text-input" class="w-full h-32 p-4 rounded-xl resize-none text-lg" placeholder="مثلاً: علی"></textarea>
-                        </div>
-                        <div class="md:w-48">
-                            <label class="block text-emerald-900 font-bold mb-2">نوع ابجد:</label>
-                            <select id="abjad-type" class="w-full p-3 rounded-xl bg-white cursor-pointer">
-                                <option value="kabir">ابجد کبیر (جمل)</option>
-                                <option value="vasit">ابجد وسیط</option>
-                                <option value="saghir">ابجد صغیر</option>
-                            </select>
-                        </div>
+                <div id="text-to-num-content" class="space-y-3">
+                    <div class="flex flex-col gap-2">
+                        <select id="abjad-type" class="p-1.5 rounded bg-gray-50 text-xs border">
+                            <option value="kabir">ابجد کبیر (جمل)</option>
+                            <option value="vasit">ابجد وسیط</option>
+                            <option value="saghir">ابجد صغیر</option>
+                        </select>
+                        <textarea id="text-input" class="h-20 p-2 rounded text-sm resize-none" placeholder="متن را اینجا بنویسید..."></textarea>
                     </div>
 
-                    <!-- Results Display -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="md:col-span-1 bg-emerald-900 text-white p-6 rounded-2xl flex flex-col items-center justify-center shadow-xl relative overflow-hidden">
-                            <div class="absolute top-0 right-0 p-2 opacity-10">
-                                <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.11 3.89,21 5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.11,3 19,3M19,19H5V5H19V19M11.5,7H13V10.5H16.5V12H13V15.5H11.5V12H8V10.5H11.5V7Z"/></svg>
-                            </div>
-                            <span class="text-emerald-200 text-sm mb-1 uppercase tracking-wider">حاصل محاسبه</span>
-                            <span id="abjad-value" class="text-5xl font-bold text-gold-primary">۰</span>
+                    <!-- Result Display -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="bg-emerald-900 text-white p-3 rounded flex flex-col items-center justify-center">
+                            <span class="text-[10px] opacity-70">مجموع ابجد</span>
+                            <span id="abjad-value" class="text-3xl font-bold text-gold-primary">۰</span>
                         </div>
-                        <div class="md:col-span-2 bg-white border border-emerald-100 p-4 rounded-2xl">
-                            <span class="text-xs text-emerald-600 block mb-2">روند محاسبه:</span>
-                            <div id="calculation-details" class="custom-scrollbar overflow-y-auto max-h-24 text-sm leading-relaxed text-emerald-800">
-                                منتظر ورود متن...
+                        <div class="sm:col-span-2 bg-gray-50 border border-gray-100 p-2 rounded">
+                            <span class="text-[10px] text-emerald-700 block mb-1">جزئیات محاسبه:</span>
+                            <div id="calculation-details" class="custom-scrollbar overflow-y-auto max-h-12 text-[11px] leading-relaxed text-gray-600">
+                                -
                             </div>
                         </div>
                     </div>
 
-                    <!-- Statistics & Highlight -->
-                    <div class="space-y-4 pt-4 border-t border-emerald-50">
-                        <h3 class="font-bold text-emerald-900 flex items-center gap-2">
-                            <span class="w-2 h-2 bg-gold-primary rounded-full"></span>
-                            آمار حروف و تفکیک
-                        </h3>
-                        <div id="letters-stats-container" class="flex flex-wrap gap-2">
-                            <!-- Stats will be injected here -->
+                    <!-- Stats -->
+                    <div class="pt-2 border-t border-gray-100">
+                        <div id="letters-stats-container" class="flex flex-wrap gap-1 mb-2">
+                            <!-- Stats -->
                         </div>
-                        <div id="highlighted-display" class="p-4 bg-emerald-50/30 rounded-xl min-h-[60px] border border-dashed border-emerald-200 text-lg leading-loose">
-                            <!-- Highlighted text will be injected here -->
+                        <div id="highlighted-display" class="p-2 bg-white rounded border border-gray-100 text-sm leading-relaxed min-h-[40px] break-words">
+                            -
                         </div>
                     </div>
                 </div>
 
                 <!-- Tab 2: Number to Text -->
-                <div id="num-to-text-content" class="hidden space-y-6">
-                    <div>
-                        <label class="block text-emerald-900 font-bold mb-2">اعداد مورد نظر را وارد کنید (هر عدد در یک خط):</label>
-                        <textarea id="number-input" class="w-full h-32 p-4 rounded-xl resize-none text-lg" placeholder="مثلاً: 110"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="p-6 bg-white border-2 gold-border rounded-xl">
-                            <span class="text-xs text-emerald-600 block mb-2 font-bold">معادل حروف (ابجد کبیر):</span>
-                            <div id="reverse-result" class="text-3xl font-bold text-emerald-900 min-h-[40px]">
-                                -
-                            </div>
+                <div id="num-to-text-content" class="hidden space-y-3">
+                    <textarea id="number-input" class="h-20 p-2 rounded text-sm resize-none" placeholder="اعداد را وارد کنید (هر عدد یک خط)..."></textarea>
+                    
+                    <div class="space-y-2">
+                        <div class="p-3 bg-white border border-gold-primary/30 rounded">
+                            <span class="text-[10px] text-emerald-700 block mb-1">معادل حروف:</span>
+                            <div id="reverse-result" class="text-xl font-bold text-emerald-900 break-words">-</div>
                         </div>
-                        <div class="p-6 bg-emerald-50 rounded-xl">
-                            <span class="text-xs text-emerald-600 block mb-2 font-bold">آنالیز عدد:</span>
-                            <div id="reverse-details" class="text-sm text-emerald-800 leading-relaxed min-h-[40px]">
-                                -
-                            </div>
+                        <div class="p-2 bg-gray-50 rounded text-[11px] text-gray-600 italic" id="reverse-details">
+                            -
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Footer/Hadith Section -->
-            <footer class="bg-emerald-900 p-4 text-center">
-                <div id="random-hadith" class="text-emerald-100 text-xs italic opacity-90">
-                    «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی؛ علم گنج بزرگی است که تمام نمی‌شود.»
+            <footer class="bg-gray-50 p-1.5 text-center border-t border-gray-100">
+                <div id="random-hadith" class="text-gray-500 text-[9px] italic">
+                    «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی»
                 </div>
             </footer>
-        </div>
-        
-        <div class="mt-8 text-center text-emerald-700 text-sm opacity-60">
-            طراحی شده با الهام از سنت‌های اصیل اسلامی و تکنولوژی مدرن
         </div>
     </div>
 
     <script>
-        // --- Core Abjad Logic ---
+        const abjadKabirMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':20,'ك':20,'گ':20,'ل':30,'م':40,'ن':50,'س':60,'ع':70,'ف':80,'ص':90,'ق':100,'ر':200,'ش':300,'ت':400,'ة':400,'ث':500,'خ':600,'ذ':700,'ض':800,'ظ':900,'غ':1000};
+        const abjadVasitMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28};
+        const abjadSaghirMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4};
 
-        const abjadKabirMap = {
-            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1,
-            'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3, 'د': 4, 'ه': 5, 'و': 6, 'ؤ': 6,
-            'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9, 'ی': 10, 'ي': 10, 'ئ': 10,
-            'ک': 20, 'ك': 20, 'گ': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60,
-            'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300,
-            'ت': 400, 'ة': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800,
-            'ظ': 900, 'غ': 1000
-        };
-
-        const abjadVasitMap = {
-            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1, 'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3,
-            'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9, 'ی': 10,
-            'ي': 10, 'ک': 11, 'ك': 11, 'گ': 11, 'ل': 12, 'م': 13, 'ن': 14,
-            'س': 15, 'ع': 16, 'ف': 17, 'ص': 18, 'ق': 19, 'ر': 20, 'ش': 21,
-            'ت': 22, 'ث': 23, 'خ': 24, 'ذ': 25, 'ض': 26, 'ظ': 27, 'غ': 28
-        };
-
-        const abjadSaghirMap = {
-            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1, 'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3,
-            'د': 4, 'ه': 5, 'و': 6, 'ؤ': 6, 'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9,
-            'ی': 10, 'ي': 10, 'ئ': 10, 'ک': 8, 'ك': 8, 'گ': 8, 'ل': 6,
-            'م': 4, 'ن': 2, 'س': 0, 'ع': 10, 'ف': 8, 'ص': 6, 'ق': 4,
-            'ر': 8, 'ش': 0, 'ت': 4, 'ة': 4, 'ث': 8, 'خ': 0, 'ذ': 4,
-            'ض': 8, 'ظ': 0, 'غ': 4
-        };
-
-        function persianizeNumerals(str) {
-            const p = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-            return str.toString().replace(/\d/g, x => p[x]);
+        function p(str) {
+            const f = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            return str.toString().replace(/\d/g, x => f[x]);
         }
-
-        function calculateAbjad(text, type = 'kabir') {
-            const map = type === 'saghir' ? abjadSaghirMap : (type === 'vasit' ? abjadVasitMap : abjadKabirMap);
-            let sum = 0;
-            let details = [];
-            let cleanChars = "";
-
-            for (let char of text) {
-                if (char === ' ') {
-                    cleanChars += " ";
-                    continue;
-                }
-                const val = map[char];
-                if (val !== undefined) {
-                    sum += val;
-                    const displayVal = val === 0 ? "ساقط" : persianizeNumerals(val);
-                    details.push(`[${char} = ${displayVal}]`);
-                    cleanChars += char;
-                }
-            }
-
-            return { n: sum, desc: details.join(" + "), cleanChars };
-        }
-
-        function reverseAbjad(numStr) {
-            let n = parseInt(numStr);
-            if (isNaN(n) || n <= 0) return { str: "", desc: "" };
-
-            const values = [
-                {v: 1000, c: 'غ'}, {v: 900, c: 'ظ'}, {v: 800, c: 'ض'}, {v: 700, c: 'ذ'},
-                {v: 600, c: 'خ'}, {v: 500, c: 'ث'}, {v: 400, c: 'ت'}, {v: 300, c: 'ش'},
-                {v: 200, c: 'ر'}, {v: 100, c: 'ق'}, {v: 90, c: 'ص'}, {v: 80, c: 'ف'},
-                {v: 70, c: 'ع'}, {v: 60, c: 'س'}, {v: 50, c: 'ن'}, {v: 40, c: 'م'},
-                {v: 30, c: 'ل'}, {v: 20, c: 'ک'}, {v: 10, c: 'ی'}, {v: 9, c: 'ط'},
-                {v: 8, c: 'ح'}, {v: 7, c: 'ز'}, {v: 6, c: 'و'}, {v: 5, c: 'ه'},
-                {v: 4, c: 'د'}, {v: 3, c: 'ج'}, {v: 2, c: 'ب'}, {v: 1, c: 'ا'}
-            ];
-
-            let resultStr = "";
-            let resultDesc = [];
-            let tempN = n;
-
-            for (let item of values) {
-                while (tempN >= item.v) {
-                    resultStr += item.c;
-                    resultDesc.push(`[${persianizeNumerals(item.v)} = ${item.c}]`);
-                    tempN -= item.v;
-                }
-            }
-
-            return { str: resultStr, desc: resultDesc.join(" + ") };
-        }
-
-        // --- UI Logic ---
 
         let activeHighlightChar = null;
 
-        function switchTab(tabId) {
-            const textContent = document.getElementById('text-to-num-content');
-            const numContent = document.getElementById('num-to-text-content');
-            const textBtn = document.getElementById('tab-btn-text');
-            const numBtn = document.getElementById('tab-btn-num');
-
-            if (tabId === 'text-to-num') {
-                textContent.classList.remove('hidden');
-                numContent.classList.add('hidden');
-                textBtn.classList.add('active');
-                numBtn.classList.remove('active');
-            } else {
-                textContent.classList.add('hidden');
-                numContent.classList.remove('hidden');
-                textBtn.classList.remove('active');
-                numBtn.classList.add('active');
-            }
+        function switchTab(id) {
+            document.getElementById('text-to-num-content').classList.toggle('hidden', id !== 'text-to-num');
+            document.getElementById('num-to-text-content').classList.toggle('hidden', id !== 'num-to-text');
+            document.getElementById('tab-btn-text').classList.toggle('active', id === 'text-to-num');
+            document.getElementById('tab-btn-num').classList.toggle('active', id === 'num-to-text');
         }
 
-        function updateTextToNum() {
-            const text = document.getElementById('text-input').value;
+        function calculate() {
+            const txt = document.getElementById('text-input').value;
             const type = document.getElementById('abjad-type').value;
-            const result = calculateAbjad(text, type);
-
-            document.getElementById('abjad-value').textContent = persianizeNumerals(result.n);
-            document.getElementById('calculation-details').textContent = result.desc || (text ? "کاراکتر معتبری یافت نشد" : "منتظر ورود متن...");
+            const map = type === 'saghir' ? abjadSaghirMap : (type === 'vasit' ? abjadVasitMap : abjadKabirMap);
             
-            updateStats(result.cleanChars);
+            let sum = 0, details = [], counts = {}, cleanText = "";
+            for (let c of txt) {
+                const v = map[c];
+                if (v !== undefined) {
+                    sum += v;
+                    details.push(`${c}:${p(v)}`);
+                    counts[c] = (counts[c] || 0) + 1;
+                    cleanText += c;
+                } else if (c === ' ') {
+                    cleanText += ' ';
+                }
+            }
+
+            document.getElementById('abjad-value').textContent = p(sum);
+            document.getElementById('calculation-details').textContent = details.join(' | ') || (txt ? 'کاراکتر معتبری نیست' : '-');
+            
+            renderStats(counts, txt);
         }
 
-        function updateStats(cleanChars) {
+        function renderStats(counts, original) {
             const container = document.getElementById('letters-stats-container');
-            const display = document.getElementById('highlighted-display');
-            const originalText = document.getElementById('text-input').value;
-            
-            if (!originalText.trim()) {
-                container.innerHTML = '';
-                display.innerHTML = '<span class="opacity-30 italic">متن در اینجا ظاهر می‌شود...</span>';
-                return;
-            }
-
-            const counts = {};
-            for (let char of cleanChars) {
-                if (char === ' ') continue;
-                counts[char] = (counts[char] || 0) + 1;
-            }
-
-            const sortedChars = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-            
             container.innerHTML = '';
-            sortedChars.forEach(([char, count], index) => {
-                const cell = document.createElement('div');
-                cell.className = 'char-cell bg-white px-3 py-1 rounded-lg shadow-sm text-sm font-bold flex items-center gap-2';
-                if (activeHighlightChar === char || (activeHighlightChar === null && index === 0)) {
-                    cell.classList.add('active-highlight');
-                    if (activeHighlightChar === null) activeHighlightChar = char;
-                }
-                
-                cell.innerHTML = `<span>${char}</span><span class="text-xs opacity-50 border-r pr-2 mr-1">${persianizeNumerals(count)}</span>`;
-                cell.onclick = () => {
-                    activeHighlightChar = char;
-                    renderHighlightedText(originalText);
-                    document.querySelectorAll('.char-cell').forEach(c => c.classList.remove('active-highlight'));
-                    cell.classList.add('active-highlight');
+            Object.entries(counts).forEach(([char, count]) => {
+                const btn = document.createElement('div');
+                btn.className = `char-cell px-1.5 py-0.5 rounded ${activeHighlightChar === char ? 'active-highlight' : 'bg-white'}`;
+                btn.innerHTML = `${char} <span class="opacity-40 text-[9px]">${p(count)}</span>`;
+                btn.onclick = () => {
+                    activeHighlightChar = (activeHighlightChar === char) ? null : char;
+                    renderStats(counts, original);
                 };
-                container.appendChild(cell);
+                container.appendChild(btn);
             });
 
-            renderHighlightedText(originalText);
-        }
-
-        function renderHighlightedText(text) {
             const display = document.getElementById('highlighted-display');
-            if (!text) return;
-            
-            if (!activeHighlightChar) {
-                display.textContent = text;
-                return;
+            if (activeHighlightChar) {
+                const regex = new RegExp(activeHighlightChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                display.innerHTML = original.replace(regex, `<span class="highlighted-char">$&</span>`).replace(/\n/g, '<br>');
+            } else {
+                display.textContent = original || '-';
             }
-
-            const escapedChar = activeHighlightChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(escapedChar, 'g');
-            const html = text.replace(regex, `<span class="highlighted-char">${activeHighlightChar}</span>`);
-            display.innerHTML = html.replace(/\n/g, '<br>');
         }
 
-        function updateNumToText() {
+        function reverse() {
             const input = document.getElementById('number-input').value;
-            const lines = input.split('\n').filter(l => l.trim() !== '');
+            const nums = input.split('\n').filter(x => x.trim() !== '');
+            const values = [{v:1000,c:'غ'},{v:900,c:'ظ'},{v:800,c:'ض'},{v:700,c:'ذ'},{v:600,c:'خ'},{v:500,c:'ث'},{v:400,c:'ت'},{v:300,c:'ش'},{v:200,c:'ر'},{v:100,c:'ق'},{v:90,c:'ص'},{v:80,c:'ف'},{v:70,c:'ع'},{v:60,c:'س'},{v:50,c:'ن'},{v:40,c:'م'},{v:30,c:'ل'},{v:20,c:'ک'},{v:10,c:'ی'},{v:9,c:'ط'},{v:8,c:'ح'},{v:7,c:'ز'},{v:6,c:'و'},{v:5,c:'ه'},{v:4,c:'د'},{v:3,c:'ج'},{v:2,c:'ب'},{v:1,c:'ا'}];
             
-            let finalStr = [];
-            let finalDesc = [];
-
-            lines.forEach(line => {
-                const num = line.replace(/[^\d]/g, '');
-                if (num) {
-                    const res = reverseAbjad(num);
-                    if (res.str) {
-                        finalStr.push(res.str);
-                        finalDesc.push(`عدد ${persianizeNumerals(num)}: ${res.desc}`);
-                    }
+            let resTxt = [], resDet = [];
+            nums.forEach(nStr => {
+                let n = parseInt(nStr.replace(/[^\d]/g, ''));
+                if (n > 0) {
+                    let s = "";
+                    for (let item of values) { while (n >= item.v) { s += item.c; n -= item.v; } }
+                    resTxt.push(s);
+                    resDet.push(`${p(nStr)}: ${s}`);
                 }
             });
-
-            document.getElementById('reverse-result').innerHTML = finalStr.join(' | ') || '-';
-            document.getElementById('reverse-details').innerHTML = finalDesc.join('<br>') || '-';
+            document.getElementById('reverse-result').textContent = resTxt.join(' | ') || '-';
+            document.getElementById('reverse-details').innerHTML = resDet.join('<br>') || '-';
         }
 
-        // Listeners
-        document.getElementById('text-input').addEventListener('input', updateTextToNum);
-        document.getElementById('abjad-type').addEventListener('change', updateTextToNum);
-        document.getElementById('number-input').addEventListener('input', updateNumToText);
-
-        // Initialization
-        window.onload = () => {
-            updateTextToNum();
-        };
+        document.getElementById('text-input').addEventListener('input', calculate);
+        document.getElementById('abjad-type').addEventListener('change', calculate);
+        document.getElementById('number-input').addEventListener('input', reverse);
     </script>
 </body>
 </html>
