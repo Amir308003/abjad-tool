@@ -2,10 +2,10 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه‌گر ابجد | مدرن و حرفه‌ای</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>محاسبه‌گر ابجد | طلایی و سبز</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
         
         * {
             margin: 0;
@@ -15,247 +15,396 @@
         }
 
         body {
-            background: linear-gradient(145deg, #f6f9fc 0%, #f1f4f9 100%);
+            background: linear-gradient(165deg, #0a3a2e 0%, #1a4f3a 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
+            margin: 0;
         }
 
         .container {
             width: 100%;
             max-width: 550px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            padding: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: #fef9e7;
+            border-radius: 40px 40px 0 0;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+            padding: 28px 22px 40px 22px;
+            border: 2px solid #c9a43b;
+            border-bottom: none;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* تزئینات طلایی */
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: linear-gradient(90deg, #c9a43b, #f5d76e, #c9a43b);
+            z-index: 10;
+        }
+
+        .container::after {
+            content: "⚘";
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 3rem;
+            color: rgba(201, 164, 59, 0.1);
+            transform: rotate(15deg);
+            z-index: 0;
         }
 
         h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 25px;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0a3a2e;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 4px solid #6366f1;
-            padding-bottom: 15px;
+            gap: 15px;
+            border-bottom: 3px solid #c9a43b;
+            padding-bottom: 18px;
+            position: relative;
+            z-index: 5;
         }
 
         h1 span {
-            background: #6366f1;
+            background: linear-gradient(145deg, #c9a43b, #b38f2a);
             color: white;
-            font-size: 2rem;
-            width: 55px;
-            height: 55px;
+            font-size: 2.2rem;
+            width: 65px;
+            height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 18px;
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            border-radius: 30px 10px 30px 10px;
+            box-shadow: 0 10px 20px -5px rgba(10, 58, 46, 0.4);
+            transform: rotate(5deg);
         }
 
         .tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 28px;
-            background: #eef2f6;
+            margin-bottom: 25px;
+            background: #e8e0d0;
             padding: 6px;
-            border-radius: 18px;
+            border-radius: 50px;
+            position: relative;
+            z-index: 5;
+            border: 1px solid #c9a43b;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 14px 8px;
+            padding: 16px 5px;
             border: none;
-            border-radius: 14px;
+            border-radius: 40px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             background: transparent;
-            color: #475569;
+            color: #2d5a4a;
         }
 
         .tab-btn.active {
-            background: white;
-            color: #6366f1;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(145deg, #0a3a2e, #1d5f45);
+            color: #f5d76e;
+            box-shadow: 0 5px 15px rgba(10, 58, 46, 0.4);
+            font-weight: 800;
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 24px;
+            background: #ffffffdd;
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
             padding: 22px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-            border: 1px solid #e9eef2;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 2px solid #c9a43b;
+            position: relative;
+            z-index: 5;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: #b38f2a;
+            box-shadow: 0 15px 30px -8px rgba(201, 164, 59, 0.3);
         }
 
         .label {
             display: block;
-            margin-bottom: 10px;
-            color: #1e293b;
-            font-weight: 600;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: #0a3a2e;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
         }
 
         select, textarea, input {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e2e8f0;
-            border-radius: 20px;
+            padding: 16px 20px;
+            border: 2px solid #e0d5b9;
+            border-radius: 25px;
             font-size: 1rem;
-            transition: all 0.2s;
+            transition: all 0.25s;
             background: white;
             font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+            color: #1e2e2a;
         }
 
         select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23c9a43b' viewBox='0 0 20 20'%3E%3Cpath stroke='%23c9a43b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
             background-position: left 1rem center;
             background-repeat: no-repeat;
             background-size: 1.5em;
-            padding-left: 3rem;
+            padding-left: 3.2rem;
             appearance: none;
+            font-weight: 500;
         }
 
         textarea:focus, select:focus, input:focus {
             outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            border-color: #c9a43b;
+            box-shadow: 0 0 0 5px rgba(201, 164, 59, 0.2);
         }
 
         .result-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0a3a2e, #1f6a4b);
             color: white;
-            border-radius: 50px;
-            padding: 25px 20px;
+            border-radius: 60px;
+            padding: 30px 25px;
             text-align: center;
             margin: 20px 0;
+            border: 2px solid #f5d76e;
+            box-shadow: 0 15px 30px -5px #0a3a2e80;
+            position: relative;
+            z-index: 5;
         }
 
         .result-badge .value {
-            font-size: 3.5rem;
+            font-size: 4.2rem;
             font-weight: 800;
             line-height: 1.2;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-shadow: 3px 3px 0 #c9a43b;
+            color: #f9e785;
         }
 
         .result-badge .label {
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 5px;
-            font-size: 1rem;
+            color: #f5d76e;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .details-box {
-            background: #f8fafc;
-            border-radius: 18px;
-            padding: 16px;
-            margin: 15px 0;
-            max-height: 100px;
+            background: #f3efdf;
+            border-radius: 25px;
+            padding: 18px;
+            margin: 15px 0 5px;
+            max-height: 110px;
             overflow-y: auto;
-            font-size: 0.95rem;
-            color: #334155;
+            font-size: 1rem;
+            color: #1e3e34;
             direction: ltr;
             text-align: left;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #c9a43b;
+            font-weight: 500;
         }
 
         .stats-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            background: #f8fafc;
-            padding: 18px;
-            border-radius: 22px;
+            gap: 10px;
+            background: #f3efdf;
+            padding: 20px;
+            border-radius: 28px;
             margin: 18px 0;
+            border: 2px solid #c9a43b;
         }
 
         .char-pill {
             background: white;
-            padding: 8px 18px;
+            padding: 10px 22px;
             border-radius: 40px;
-            border: 2px solid #e2e8f0;
-            font-size: 0.95rem;
-            font-weight: 500;
+            border: 2px solid #c9a43b;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.15s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            color: #0a3a2e;
         }
 
         .char-pill:hover {
-            border-color: #6366f1;
-            transform: translateY(-2px);
+            border-color: #b38f2a;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -5px #c9a43b80;
         }
 
         .char-pill.active {
-            background: #6366f1;
-            color: white;
-            border-color: #6366f1;
+            background: linear-gradient(145deg, #c9a43b, #f5d76e);
+            color: #0a3a2e;
+            border-color: #0a3a2e;
+            font-weight: 800;
         }
 
         .highlight-box {
-            background: #f8fafc;
-            padding: 18px;
-            border-radius: 22px;
-            border: 2px solid #e2e8f0;
-            min-height: 80px;
-            line-height: 2;
-            font-size: 1.2rem;
+            background: #f3efdf;
+            padding: 22px;
+            border-radius: 28px;
+            border: 2px solid #c9a43b;
+            min-height: 100px;
+            line-height: 2.2;
+            font-size: 1.3rem;
             margin-top: 15px;
+            color: #1e3e34;
+            font-weight: 500;
         }
 
         .highlight-box span[style*="color: red"] {
-            color: #6366f1 !important;
-            font-weight: 700;
-            background: rgba(99, 102, 241, 0.12);
-            padding: 3px 8px;
-            border-radius: 30px;
+            color: #0a3a2e !important;
+            font-weight: 800;
+            background: #f5d76e;
+            padding: 5px 12px;
+            border-radius: 40px;
+            border: 2px solid #c9a43b;
         }
 
         .reverse-card {
-            background: linear-gradient(145deg, #f8fafc 0%, #ffffff 100%);
-            border-radius: 24px;
-            padding: 22px;
-            border: 2px solid #e2e8f0;
+            background: #f3efdf;
+            border-radius: 30px;
+            padding: 25px;
+            border: 2px solid #c9a43b;
         }
 
         .reverse-letters {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #6366f1;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #0a3a2e;
             text-align: center;
             margin: 20px 0;
             background: white;
-            padding: 20px;
-            border-radius: 40px;
-            border: 2px dashed #e2e8f0;
+            padding: 25px;
+            border-radius: 50px;
+            border: 3px dashed #c9a43b;
+            word-break: break-word;
         }
 
         .reverse-details {
-            color: #475569;
-            font-size: 0.95rem;
+            color: #1e3e34;
+            font-size: 1rem;
             direction: ltr;
             text-align: left;
             background: white;
-            padding: 16px;
-            border-radius: 18px;
-            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 25px;
+            border: 2px solid #c9a43b;
+            font-weight: 500;
         }
 
         .footer {
-            margin-top: 25px;
+            margin-top: 30px;
             text-align: center;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            padding-top: 18px;
-            border-top: 2px dashed #e2e8f0;
+            color: #c9a43b;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 2px dashed #c9a43b;
+            font-weight: 600;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* بهینه‌سازی کامل برای موبایل */
+        @media (max-width: 480px) {
+            .container {
+                padding: 22px 15px 30px 15px;
+                border-radius: 30px 30px 0 0;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                gap: 10px;
+            }
+            
+            h1 span {
+                font-size: 1.8rem;
+                width: 55px;
+                height: 55px;
+            }
+            
+            .tab-btn {
+                padding: 14px 3px;
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 18px;
+            }
+            
+            .result-badge .value {
+                font-size: 3.5rem;
+            }
+            
+            .char-pill {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .reverse-letters {
+                font-size: 2rem;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            h1 span {
+                font-size: 1.5rem;
+                width: 48px;
+                height: 48px;
+            }
+            
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 12px 2px;
+            }
+            
+            .result-badge .value {
+                font-size: 2.8rem;
+            }
+            
+            .details-box {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ارتفاع کامل صفحه */
+        html, body {
+            height: 100%;
+        }
+
+        /* اسکرول اختصاصی */
+        .details-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .details-box::-webkit-scrollbar-track {
+            background: #f3efdf;
+            border-radius: 10px;
+        }
+        .details-box::-webkit-scrollbar-thumb {
+            background: #c9a43b;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -300,7 +449,6 @@
             <div class="card">
                 <div class="label">📊 آمار حروف (کلیک کنید):</div>
                 <div id="letters-stats-container" class="stats-grid"></div>
-                
                 <div class="label" style="margin-top: 20px;">✨ متن هایلایت شده:</div>
                 <div id="highlighted-text" class="highlight-box"></div>
             </div>
@@ -312,7 +460,6 @@
                 <div class="label">🔢 عدد خود را وارد کنید (هر خط یک عدد):</div>
                 <textarea id="number-input" rows="3" placeholder="مثال:&#10;۱۲۳&#10;۷۸۹&#10;۳۱۹"></textarea>
             </div>
-
             <div class="reverse-card">
                 <div class="reverse-letters" id="reverse-result">عددی وارد نشده</div>
                 <div class="reverse-details" id="reverse-details">منتظر ورود عدد...</div>
@@ -344,11 +491,11 @@
             text = String(text);
             let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
             if (!text) return result;
-            
+
             for (let i = 0; i < text.length; i++) {
                 let charValue = 0;
                 const char = text.charAt(i);
-                
+
                 switch (char) {
                     case 'ا': case 'آ': case 'أ': case 'إ': charValue = 1; break;
                     case 'ب': case 'پ': charValue = 2; break;
@@ -379,7 +526,7 @@
                     case 'ظ': charValue = 900; break;
                     case 'غ': charValue = 1000; break;
                 }
-                
+
                 if (charValue !== 0) {
                     if (result.desc) result.desc += " + ";
                     result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
@@ -402,11 +549,9 @@
         function calcVasit(text) {
             let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
             if (!text) return result;
-            
             for (let i = 0; i < text.length; i++) {
                 const char = text.charAt(i);
                 const charValue = abjadVasit[char] || 0;
-                
                 if (charValue !== 0) {
                     if (result.desc) result.desc += " + ";
                     result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
@@ -429,14 +574,11 @@
         function calcSaghir(text) {
             let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
             if (!text) return result;
-            
             for (let i = 0; i < text.length; i++) {
                 const char = text.charAt(i);
                 const charValue = abjadSaghir[char];
-                
                 if (charValue !== undefined) {
                     if (result.desc) result.desc += " + ";
-                    
                     if (charValue === 0) {
                         result.desc += `[${char} = ساقط]`;
                     } else {
@@ -454,19 +596,17 @@
         function revcalc(numbers) {
             let result = { str: "", desc: "" };
             if (!numbers) return result;
-            
+
             let i = 0;
             while (i < numbers.length) {
                 let char = "";
                 let valueStr = "";
                 const current = numbers.charAt(i);
-                
                 const next = (i < numbers.length - 1) ? numbers[i + 1].replace('۰', '0') : '';
                 const next2 = (i < numbers.length - 2) ? numbers[i + 2].replace('۰', '0') : '';
                 const next3 = (i < numbers.length - 3) ? numbers[i + 3].replace('۰', '0') : '';
-                
                 const digit = current.replace('۰', '0');
-                
+
                 switch (digit) {
                     case '1':
                         if (next === '0' && next2 === '0' && next3 === '0') { valueStr = "1000"; char = "غ"; i += 4; }
@@ -516,7 +656,7 @@
                         break;
                     default: i++; continue;
                 }
-                
+
                 if (char) {
                     if (result.desc) result.desc += " + ";
                     result.desc += `[${valueStr} = ${char}]`;
@@ -541,23 +681,21 @@
             const container = document.getElementById(containerId);
             container.innerHTML = '';
             if (!charStats || charStats.size === 0) return;
-            
+
             let activeElement = null;
-            
             charStats.forEach((count, char) => {
                 const pill = document.createElement('div');
                 pill.className = 'char-pill';
                 pill.textContent = `${char} : ${persianizeNumerals(count.toString())}`;
-                
+
                 pill.addEventListener('click', () => {
                     if (activeElement) activeElement.classList.remove('active');
                     pill.classList.add('active');
                     activeElement = pill;
-                    
                     const sourceText = document.getElementById('text-input').value;
                     document.getElementById(sourceTextId).innerHTML = highlightCharacter(sourceText, char);
                 });
-                
+
                 container.appendChild(pill);
             });
         }
@@ -566,10 +704,8 @@
         function showTab(tabId) {
             document.getElementById('text-to-number').style.display = tabId === 'text-to-number' ? 'block' : 'none';
             document.getElementById('number-to-text').style.display = tabId === 'number-to-text' ? 'block' : 'none';
-            
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
             setTimeout(sendHeightToParent, 100);
         }
 
@@ -577,27 +713,24 @@
         function calculateAbjadFromInput() {
             const text = document.getElementById('text-input').value;
             const type = document.getElementById('abjad-type').value;
-            
+
             let result;
             if (type === 'saghir') result = calcSaghir(text);
             else if (type === 'vasit') result = calcVasit(text);
             else result = calc(text);
-            
+
             document.getElementById('abjad-value').textContent = persianizeNumerals(result.n.toString());
-            
             const detailsEl = document.getElementById('calculation-details');
             detailsEl.textContent = result.desc || 'متنی وارد نشده است';
-            
+
             if (!text.trim()) {
                 document.getElementById('letters-stats-container').innerHTML = '';
                 document.getElementById('highlighted-text').innerHTML = '';
                 return;
             }
-            
+
             const charStats = countAndSortCharacters(result.cleanChars || text);
             displayLetterStats(charStats, 'letters-stats-container', 'highlighted-text');
-            
-            // هایلایت خودکار اولین حرف
             setTimeout(() => {
                 const firstPill = document.querySelector('.char-pill');
                 if (firstPill) firstPill.click();
@@ -607,15 +740,12 @@
         function calculateReverseFromInput() {
             const input = document.getElementById('number-input').value.trim();
             const lines = input.split('\n').filter(l => l.trim());
-            
             let letters = [], details = [];
-            
             lines.forEach(line => {
                 const result = revcalc(line.trim());
                 letters.push(result.str || '❌ نامعتبر');
                 details.push(result.desc || 'بدون جزئیات');
             });
-            
             document.getElementById('reverse-result').innerHTML = letters.join('<br>') || 'عددی وارد نشده';
             document.getElementById('reverse-details').innerHTML = details.join('<br>') || 'منتظر ورود عدد...';
         }
@@ -628,10 +758,8 @@
 
         // ==================== رویدادها ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // رویدادهای ورودی
             document.getElementById('text-input').addEventListener('input', calculateAbjadFromInput);
             document.getElementById('abjad-type').addEventListener('change', calculateAbjadFromInput);
-            
             document.getElementById('number-input').addEventListener('input', function(e) {
                 let value = e.target.value;
                 value = value.replace(/[^\d\n]/g, '');
@@ -642,12 +770,8 @@
                 }
                 calculateReverseFromInput();
             });
-            
-            // تنظیم ارتفاع
             window.addEventListener('load', sendHeightToParent);
             window.addEventListener('resize', sendHeightToParent);
-            
-            // محاسبات اولیه
             calculateAbjadFromInput();
             calculateReverseFromInput();
         });
