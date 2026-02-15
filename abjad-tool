@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه‌گر ابجد</title>
+    <title>محاسبه‌گر ابجد | مدرن و حرفه‌ای</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
         
@@ -15,239 +15,266 @@
         }
 
         body {
-            background: #f0f2f5; /* رنگ ساده برای iframe */
+            background: linear-gradient(145deg, #f6f9fc 0%, #f1f4f9 100%);
             min-height: 100vh;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 0 auto;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
-        h2 {
-            color: #2d3748;
-            font-size: 1.5rem;
+        h1 {
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            color: #1e293b;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-bottom: 3px solid #4f46e5;
-            padding-bottom: 12px;
+            gap: 12px;
+            border-bottom: 4px solid #6366f1;
+            padding-bottom: 15px;
         }
 
-        h2 span {
-            background: #4f46e5;
+        h1 span {
+            background: #6366f1;
             color: white;
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
+            font-size: 2rem;
+            width: 55px;
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 18px;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
         }
 
         .tabs {
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            background: #f1f5f9;
-            padding: 5px;
-            border-radius: 12px;
+            gap: 10px;
+            margin-bottom: 28px;
+            background: #eef2f6;
+            padding: 6px;
+            border-radius: 18px;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 10px;
+            padding: 14px 8px;
             border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s ease;
             background: transparent;
-            color: #4a5568;
+            color: #475569;
         }
 
         .tab-btn.active {
             background: white;
-            color: #4f46e5;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            font-weight: 600;
+            color: #6366f1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .abjad-type-box {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 22px;
             margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e9eef2;
         }
 
-        select {
+        .label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        select, textarea, input {
             width: 100%;
-            padding: 12px;
+            padding: 14px 18px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            border-radius: 20px;
             font-size: 1rem;
+            transition: all 0.2s;
             background: white;
             font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
         }
 
-        .input-group {
-            margin-bottom: 20px;
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-position: left 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em;
+            padding-left: 3rem;
+            appearance: none;
         }
 
-        textarea, input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
-            resize: vertical;
-        }
-
-        textarea:focus, input:focus, select:focus {
+        textarea:focus, select:focus, input:focus {
             outline: none;
-            border-color: #4f46e5;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
-        .result-card {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
+        .result-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50px;
+            padding: 25px 20px;
             text-align: center;
+            margin: 20px 0;
         }
 
-        .result-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #4f46e5;
+        .result-badge .value {
+            font-size: 3.5rem;
+            font-weight: 800;
             line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .result-badge .label {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 5px;
+            font-size: 1rem;
         }
 
         .details-box {
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 12px;
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 16px;
             margin: 15px 0;
             max-height: 100px;
             overflow-y: auto;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #334155;
             direction: ltr;
             text-align: left;
-            border: 1px solid #e2e8f0;
+            border: 2px solid #e2e8f0;
         }
 
-        .chars-grid {
+        .stats-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 15px 0;
+            padding: 18px;
+            border-radius: 22px;
+            margin: 18px 0;
         }
 
-        .char-cell {
+        .char-pill {
             background: white;
-            padding: 5px 12px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 40px;
             border: 2px solid #e2e8f0;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
             cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        .char-cell.background-red {
-            background: #4f46e5;
+        .char-pill:hover {
+            border-color: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .char-pill.active {
+            background: #6366f1;
             color: white;
-            border-color: #4f46e5;
+            border-color: #6366f1;
         }
 
-        .highlighted-text {
+        .highlight-box {
             background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: 22px;
             border: 2px solid #e2e8f0;
-            min-height: 60px;
-            line-height: 1.8;
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
-
-        .highlighted-text span[style*="color: red"] {
-            color: #4f46e5 !important;
-            font-weight: 700;
-            background: rgba(79, 70, 229, 0.1);
-            padding: 2px 5px;
-            border-radius: 6px;
-        }
-
-        .reverse-output {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
+            min-height: 80px;
+            line-height: 2;
+            font-size: 1.2rem;
             margin-top: 15px;
-            border: 1px solid #e2e8f0;
         }
 
-        .reverse-output .letters {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #4f46e5;
+        .highlight-box span[style*="color: red"] {
+            color: #6366f1 !important;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.12);
+            padding: 3px 8px;
+            border-radius: 30px;
+        }
+
+        .reverse-card {
+            background: linear-gradient(145deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 24px;
+            padding: 22px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .reverse-letters {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
             text-align: center;
-            margin-bottom: 10px;
+            margin: 20px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 40px;
+            border: 2px dashed #e2e8f0;
         }
 
-        .reverse-output .details {
+        .reverse-details {
             color: #475569;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             direction: ltr;
             text-align: left;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 16px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
         }
 
-        .footer-note {
-            margin-top: 20px;
+        .footer {
+            margin-top: 25px;
             text-align: center;
             color: #94a3b8;
-            font-size: 0.8rem;
-            padding-top: 12px;
-            border-top: 1px dashed #e2e8f0;
-        }
-
-        /* بهینه‌سازی برای نمایش در iframe */
-        @media (max-width: 400px) {
-            .container { padding: 15px; }
-            .result-value { font-size: 2rem; }
+            font-size: 0.85rem;
+            padding-top: 18px;
+            border-top: 2px dashed #e2e8f0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2><span>📊</span>محاسبه‌گر ابجد</h2>
+        <h1>
+            <span>🔢</span>
+            محاسبه‌گر ابجد
+        </h1>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('text-to-number')">متن به عدد</button>
-            <button class="tab-btn" onclick="showTab('number-to-text')">عدد به حروف</button>
+            <button class="tab-btn active" onclick="showTab('text-to-number')">📝 متن به عدد</button>
+            <button class="tab-btn" onclick="showTab('number-to-text')">🔢 عدد به حروف</button>
         </div>
 
-        <div id="text-to-number" class="tab-content active">
-            <div class="abjad-type-box">
-                <label>نوع ابجد:</label>
+        <!-- تب اول: متن به عدد -->
+        <div id="text-to-number" class="tab-content" style="display: block;">
+            <div class="card">
+                <div class="label">📌 نوع ابجد:</div>
                 <select id="abjad-type">
                     <option value="kabir">ابجد کبیر</option>
                     <option value="vasit">ابجد وسیط</option>
@@ -255,71 +282,375 @@
                 </select>
             </div>
 
-            <div class="input-group">
-                <label>متن خود را وارد کنید:</label>
-                <textarea id="text-input" rows="2" placeholder="مثال: بسم الله الرحمن الرحیم"></textarea>
+            <div class="card">
+                <div class="label">✍️ متن خود را وارد کنید:</div>
+                <textarea id="text-input" rows="3" placeholder="مثال: بسم الله الرحمن الرحیم"></textarea>
             </div>
 
-            <div class="result-card">
-                <div class="result-label">ارزش ابجد:</div>
-                <div class="result-value" id="abjad-value">۰</div>
+            <div class="result-badge">
+                <div class="label">نتیجه ابجد</div>
+                <div class="value" id="abjad-value">۰</div>
             </div>
 
-            <div>
-                <div class="result-label">جزئیات محاسبه:</div>
+            <div class="card">
+                <div class="label">📋 جزئیات محاسبه:</div>
                 <div id="calculation-details" class="details-box">متنی وارد نشده است</div>
             </div>
 
-            <div id="letters-stats-container" class="chars-grid"></div>
-            <div id="highlighted-text" class="highlighted-text"></div>
-        </div>
-
-        <div id="number-to-text" class="tab-content">
-            <div class="input-group">
-                <label>عدد خود را وارد کنید (هر خط یک عدد):</label>
-                <textarea id="number-input" rows="2" placeholder="مثال: ۱۲۳&#10;۷۸۹"></textarea>
-            </div>
-
-            <div class="reverse-output">
-                <div class="letters" id="reverse-result">عددی وارد نشده است</div>
-                <div class="details" id="reverse-details">عددی وارد نشده است</div>
+            <div class="card">
+                <div class="label">📊 آمار حروف (کلیک کنید):</div>
+                <div id="letters-stats-container" class="stats-grid"></div>
+                
+                <div class="label" style="margin-top: 20px;">✨ متن هایلایت شده:</div>
+                <div id="highlighted-text" class="highlight-box"></div>
             </div>
         </div>
 
-        <div class="footer-note">
-            🔤 پشتیبانی از گ‌چ‌پ‌ژ • سه نوع ابجد
+        <!-- تب دوم: عدد به حروف -->
+        <div id="number-to-text" class="tab-content" style="display: none;">
+            <div class="card">
+                <div class="label">🔢 عدد خود را وارد کنید (هر خط یک عدد):</div>
+                <textarea id="number-input" rows="3" placeholder="مثال:&#10;۱۲۳&#10;۷۸۹&#10;۳۱۹"></textarea>
+            </div>
+
+            <div class="reverse-card">
+                <div class="reverse-letters" id="reverse-result">عددی وارد نشده</div>
+                <div class="reverse-details" id="reverse-details">منتظر ورود عدد...</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            ⚡ پشتیبانی از حروف فارسی (گ‌چ‌پ‌ژ) • ابجد کبیر • وسیط • صغیر
         </div>
     </div>
 
     <script>
-        // تمام توابع محاسباتی شما (calc, calcVasit, calcSaghir, revcalc و ...) اینجا قرار می‌گیرند
-        // برای جلوگیری از طولانی شدن پاسخ، توابع را از فایل قبلی کپی کنید
-        
-        // ارسال ارتفاع به والد
-        function sendHeight() {
+        // ==================== توابع کمکی ====================
+        function persianizeNumerals(str) {
+            return str.replace(/0/g, "۰").replace(/1/g, "۱").replace(/2/g, "۲").replace(/3/g, "۳")
+                      .replace(/4/g, "۴").replace(/5/g, "۵").replace(/6/g, "۶").replace(/7/g, "۷")
+                      .replace(/8/g, "۸").replace(/9/g, "۹");
+        }
+
+        function highlightCharacter(text, char) {
+            const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(escapedChar, 'g');
+            const cleanText = text.replace(/<span style="color: red;">|<\/span>/g, "");
+            return cleanText.replace(regex, '<span style="color: red;">$&</span>');
+        }
+
+        // ==================== ابجد کبیر ====================
+        function calc(text) {
+            text = String(text);
+            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
+            if (!text) return result;
+            
+            for (let i = 0; i < text.length; i++) {
+                let charValue = 0;
+                const char = text.charAt(i);
+                
+                switch (char) {
+                    case 'ا': case 'آ': case 'أ': case 'إ': charValue = 1; break;
+                    case 'ب': case 'پ': charValue = 2; break;
+                    case 'ج': case 'چ': charValue = 3; break;
+                    case 'د': charValue = 4; break;
+                    case 'ه': case 'ة': charValue = 5; break;
+                    case 'و': case 'ؤ': charValue = 6; break;
+                    case 'ز': case 'ژ': charValue = 7; break;
+                    case 'ح': charValue = 8; break;
+                    case 'ط': charValue = 9; break;
+                    case 'ی': case 'ي': case 'ئ': case 'ى': charValue = 10; break;
+                    case 'ک': case 'ك': case 'گ': charValue = 20; break;
+                    case 'ل': charValue = 30; break;
+                    case 'م': charValue = 40; break;
+                    case 'ن': charValue = 50; break;
+                    case 'س': charValue = 60; break;
+                    case 'ع': charValue = 70; break;
+                    case 'ف': charValue = 80; break;
+                    case 'ص': charValue = 90; break;
+                    case 'ق': charValue = 100; break;
+                    case 'ر': charValue = 200; break;
+                    case 'ش': charValue = 300; break;
+                    case 'ت': charValue = 400; break;
+                    case 'ث': charValue = 500; break;
+                    case 'خ': charValue = 600; break;
+                    case 'ذ': charValue = 700; break;
+                    case 'ض': charValue = 800; break;
+                    case 'ظ': charValue = 900; break;
+                    case 'غ': charValue = 1000; break;
+                }
+                
+                if (charValue !== 0) {
+                    if (result.desc) result.desc += " + ";
+                    result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
+                    result.n += charValue;
+                    result.cleanChars += char;
+                    result.charCount++;
+                }
+            }
+            return result;
+        }
+
+        // ==================== ابجد وسیط ====================
+        const abjadVasit = {
+            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,
+            'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,
+            'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,
+            'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28
+        };
+
+        function calcVasit(text) {
+            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
+            if (!text) return result;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charAt(i);
+                const charValue = abjadVasit[char] || 0;
+                
+                if (charValue !== 0) {
+                    if (result.desc) result.desc += " + ";
+                    result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
+                    result.n += charValue;
+                    result.cleanChars += char;
+                    result.charCount++;
+                }
+            }
+            return result;
+        }
+
+        // ==================== ابجد صغیر ====================
+        const abjadSaghir = {
+            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,
+            'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,
+            'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,
+            'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4
+        };
+
+        function calcSaghir(text) {
+            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
+            if (!text) return result;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charAt(i);
+                const charValue = abjadSaghir[char];
+                
+                if (charValue !== undefined) {
+                    if (result.desc) result.desc += " + ";
+                    
+                    if (charValue === 0) {
+                        result.desc += `[${char} = ساقط]`;
+                    } else {
+                        result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
+                        result.n += charValue;
+                        result.cleanChars += char;
+                        result.charCount++;
+                    }
+                }
+            }
+            return result;
+        }
+
+        // ==================== تبدیل عدد به حروف ====================
+        function revcalc(numbers) {
+            let result = { str: "", desc: "" };
+            if (!numbers) return result;
+            
+            let i = 0;
+            while (i < numbers.length) {
+                let char = "";
+                let valueStr = "";
+                const current = numbers.charAt(i);
+                
+                const next = (i < numbers.length - 1) ? numbers[i + 1].replace('۰', '0') : '';
+                const next2 = (i < numbers.length - 2) ? numbers[i + 2].replace('۰', '0') : '';
+                const next3 = (i < numbers.length - 3) ? numbers[i + 3].replace('۰', '0') : '';
+                
+                const digit = current.replace('۰', '0');
+                
+                switch (digit) {
+                    case '1':
+                        if (next === '0' && next2 === '0' && next3 === '0') { valueStr = "1000"; char = "غ"; i += 4; }
+                        else if (next === '0' && next2 === '0') { valueStr = "100"; char = "ق"; i += 3; }
+                        else if (next === '0') { valueStr = "10"; char = "ی"; i += 2; }
+                        else { valueStr = "1"; char = "ا"; i++; }
+                        break;
+                    case '2':
+                        if (next === '0' && next2 === '0') { valueStr = "200"; char = "ر"; i += 3; }
+                        else if (next === '0') { valueStr = "20"; char = "ک(گ)"; i += 2; }
+                        else { valueStr = "2"; char = "ب(پ)"; i++; }
+                        break;
+                    case '3':
+                        if (next === '0' && next2 === '0') { valueStr = "300"; char = "ش"; i += 3; }
+                        else if (next === '0') { valueStr = "30"; char = "ل"; i += 2; }
+                        else { valueStr = "3"; char = "ج(چ)"; i++; }
+                        break;
+                    case '4':
+                        if (next === '0' && next2 === '0') { valueStr = "400"; char = "ت"; i += 3; }
+                        else if (next === '0') { valueStr = "40"; char = "م"; i += 2; }
+                        else { valueStr = "4"; char = "د"; i++; }
+                        break;
+                    case '5':
+                        if (next === '0' && next2 === '0') { valueStr = "500"; char = "ث"; i += 3; }
+                        else if (next === '0') { valueStr = "50"; char = "ن"; i += 2; }
+                        else { valueStr = "5"; char = "ه"; i++; }
+                        break;
+                    case '6':
+                        if (next === '0' && next2 === '0') { valueStr = "600"; char = "خ"; i += 3; }
+                        else if (next === '0') { valueStr = "60"; char = "س"; i += 2; }
+                        else { valueStr = "6"; char = "و"; i++; }
+                        break;
+                    case '7':
+                        if (next === '0' && next2 === '0') { valueStr = "700"; char = "ذ"; i += 3; }
+                        else if (next === '0') { valueStr = "70"; char = "ع"; i += 2; }
+                        else { valueStr = "7"; char = "ز(ژ)"; i++; }
+                        break;
+                    case '8':
+                        if (next === '0' && next2 === '0') { valueStr = "800"; char = "ض"; i += 3; }
+                        else if (next === '0') { valueStr = "80"; char = "ف"; i += 2; }
+                        else { valueStr = "8"; char = "ح"; i++; }
+                        break;
+                    case '9':
+                        if (next === '0' && next2 === '0') { valueStr = "900"; char = "ظ"; i += 3; }
+                        else if (next === '0') { valueStr = "90"; char = "ص"; i += 2; }
+                        else { valueStr = "9"; char = "ط"; i++; }
+                        break;
+                    default: i++; continue;
+                }
+                
+                if (char) {
+                    if (result.desc) result.desc += " + ";
+                    result.desc += `[${valueStr} = ${char}]`;
+                    result.str += char;
+                }
+            }
+            return result;
+        }
+
+        // ==================== آمار حروف ====================
+        function countAndSortCharacters(text) {
+            if (!text) return new Map();
+            const counts = new Map();
+            for (const char of text) {
+                if (char === ' ') continue;
+                counts.set(char, (counts.get(char) || 0) + 1);
+            }
+            return new Map([...counts.entries()].sort((a, b) => b[1] - a[1]));
+        }
+
+        function displayLetterStats(charStats, containerId, sourceTextId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if (!charStats || charStats.size === 0) return;
+            
+            let activeElement = null;
+            
+            charStats.forEach((count, char) => {
+                const pill = document.createElement('div');
+                pill.className = 'char-pill';
+                pill.textContent = `${char} : ${persianizeNumerals(count.toString())}`;
+                
+                pill.addEventListener('click', () => {
+                    if (activeElement) activeElement.classList.remove('active');
+                    pill.classList.add('active');
+                    activeElement = pill;
+                    
+                    const sourceText = document.getElementById('text-input').value;
+                    document.getElementById(sourceTextId).innerHTML = highlightCharacter(sourceText, char);
+                });
+                
+                container.appendChild(pill);
+            });
+        }
+
+        // ==================== نمایش تب‌ها ====================
+        function showTab(tabId) {
+            document.getElementById('text-to-number').style.display = tabId === 'text-to-number' ? 'block' : 'none';
+            document.getElementById('number-to-text').style.display = tabId === 'number-to-text' ? 'block' : 'none';
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            setTimeout(sendHeightToParent, 100);
+        }
+
+        // ==================== محاسبات اصلی ====================
+        function calculateAbjadFromInput() {
+            const text = document.getElementById('text-input').value;
+            const type = document.getElementById('abjad-type').value;
+            
+            let result;
+            if (type === 'saghir') result = calcSaghir(text);
+            else if (type === 'vasit') result = calcVasit(text);
+            else result = calc(text);
+            
+            document.getElementById('abjad-value').textContent = persianizeNumerals(result.n.toString());
+            
+            const detailsEl = document.getElementById('calculation-details');
+            detailsEl.textContent = result.desc || 'متنی وارد نشده است';
+            
+            if (!text.trim()) {
+                document.getElementById('letters-stats-container').innerHTML = '';
+                document.getElementById('highlighted-text').innerHTML = '';
+                return;
+            }
+            
+            const charStats = countAndSortCharacters(result.cleanChars || text);
+            displayLetterStats(charStats, 'letters-stats-container', 'highlighted-text');
+            
+            // هایلایت خودکار اولین حرف
+            setTimeout(() => {
+                const firstPill = document.querySelector('.char-pill');
+                if (firstPill) firstPill.click();
+            }, 100);
+        }
+
+        function calculateReverseFromInput() {
+            const input = document.getElementById('number-input').value.trim();
+            const lines = input.split('\n').filter(l => l.trim());
+            
+            let letters = [], details = [];
+            
+            lines.forEach(line => {
+                const result = revcalc(line.trim());
+                letters.push(result.str || '❌ نامعتبر');
+                details.push(result.desc || 'بدون جزئیات');
+            });
+            
+            document.getElementById('reverse-result').innerHTML = letters.join('<br>') || 'عددی وارد نشده';
+            document.getElementById('reverse-details').innerHTML = details.join('<br>') || 'منتظر ورود عدد...';
+        }
+
+        // ==================== تنظیم ارتفاع iframe ====================
+        function sendHeightToParent() {
             const height = document.documentElement.scrollHeight;
             parent.postMessage({ type: 'resize', height: height }, '*');
         }
 
-        // اجرا در زمان‌های مختلف
-        window.addEventListener('load', sendHeight);
-        window.addEventListener('resize', sendHeight);
-        new ResizeObserver(sendHeight).observe(document.body);
-        
-        // توابع نمایش تب‌ها و محاسبات را از کد قبلی کپی کنید
-        function showTab(tabId) {
-            const tabs = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.tab-btn');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            buttons.forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
-            document.querySelector('.abjad-type-box').style.display = tabId === 'text-to-number' ? 'block' : 'none';
-            setTimeout(sendHeight, 100);
-        }
-
-        // توابع محاسباتی را اینجا قرار دهید (از کد قبلی)
-        // ... (همان توابع calc, calcVasit, calcSaghir, revcalc و ...)
+        // ==================== رویدادها ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // رویدادهای ورودی
+            document.getElementById('text-input').addEventListener('input', calculateAbjadFromInput);
+            document.getElementById('abjad-type').addEventListener('change', calculateAbjadFromInput);
+            
+            document.getElementById('number-input').addEventListener('input', function(e) {
+                let value = e.target.value;
+                value = value.replace(/[^\d\n]/g, '');
+                if (value !== e.target.value) {
+                    const pos = e.target.selectionStart;
+                    e.target.value = value;
+                    e.target.setSelectionRange(pos, pos);
+                }
+                calculateReverseFromInput();
+            });
+            
+            // تنظیم ارتفاع
+            window.addEventListener('load', sendHeightToParent);
+            window.addEventListener('resize', sendHeightToParent);
+            
+            // محاسبات اولیه
+            calculateAbjadFromInput();
+            calculateReverseFromInput();
+        });
     </script>
 </body>
 </html>
