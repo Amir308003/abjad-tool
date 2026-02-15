@@ -1,141 +1,735 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه ابجد</title>
+    <title>محاسبه‌گر ابجد مدرن</title>
     <style>
-        body {
-            font-family: Tahoma, Arial, sans-serif;
-            background: transparent;
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            background: #f9f9f9;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h3 {
-            margin-top: 0;
-            text-align: center;
-        }
-        textarea {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            font-size: 1rem;
-            resize: vertical;
             box-sizing: border-box;
+            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
         }
-        .buttons {
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .glass-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 12px;
+        }
+
+        h2 span {
+            background: #667eea;
+            color: white;
+            font-size: 1.8rem;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .tabs {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 25px;
+            background: #edf2f7;
+            padding: 6px;
+            border-radius: 14px;
         }
-        button {
+
+        .tab-btn {
             flex: 1;
-            background: #4CAF50;
-            color: white;
+            padding: 12px;
             border: none;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 10px;
             font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #4a5568;
         }
-        button.clear {
-            background: #f44336;
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
         }
-        .result {
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .abjad-type-box {
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+
+        .abjad-type-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #f6f9fc 0%, #f1f5f9 100%);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .result-label {
+            text-align: center;
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .details-box {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            margin: 15px 0;
+            border: 2px solid #e2e8f0;
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            color: #4a5568;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .details-box.scrollable {
+            border-color: #667eea;
+        }
+
+        .stats-section {
+            margin-top: 20px;
+        }
+
+        .stats-section h4 {
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .chars-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+        }
+
+        .char-cell {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .char-cell:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .char-cell.background-red {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .highlighted-text {
+            background: white;
+            padding: 16px;
+            border-radius: 14px;
+            border: 2px solid #e2e8f0;
+            min-height: 60px;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .highlighted-text span[style*="color: red"] {
+            color: #667eea !important;
+            font-weight: 700;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 2px 4px;
+            border-radius: 6px;
+        }
+
+        .reverse-output {
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 14px;
             margin-top: 15px;
-            padding: 10px;
-            background: #e7f3fe;
-            border-radius: 4px;
-            font-size: 1.2rem;
-            text-align: center;
+            line-height: 2;
         }
-        .note {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: #555;
+
+        .reverse-output .letters {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
             text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .reverse-output .details {
+            color: #4a5568;
+            font-size: 0.9rem;
+            direction: ltr;
+            text-align: left;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.8rem;
+            padding-top: 15px;
+            border-top: 2px dashed #e2e8f0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h3>📊 محاسبه ابجد</h3>
-        <label for="abjadInput">متن خود را وارد کنید:</label>
-        <textarea id="abjadInput" rows="4"></textarea>
-        <div class="buttons">
-            <button id="calculateBtn">محاسبه کن</button>
-            <button id="clearBtn" class="clear">پاک کردن</button>
+    <div class="glass-container">
+        <h2>
+            <span>📊</span>
+            محاسبه‌گر ابجد
+        </h2>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('text-to-number')">متن به عدد</button>
+            <button class="tab-btn" onclick="showTab('number-to-text')">عدد به حروف</button>
         </div>
-        <div id="result" class="result">نتیجه: ۰</div>
-        <div class="note">🔤 ارزش ابجدی حروف (شامل گ‌چ‌پ‌ژ)</div>
+
+        <!-- تب اول: متن به عدد -->
+        <div id="text-to-number" class="tab-content active">
+            <div class="abjad-type-box">
+                <label>نوع ابجد:</label>
+                <select id="abjad-type">
+                    <option value="kabir">ابجد کبیر</option>
+                    <option value="vasit">ابجد وسیط</option>
+                    <option value="saghir">ابجد صغیر</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>متن خود را وارد کنید:</label>
+                <textarea id="text-input" rows="3" placeholder="مثال: بسم الله الرحمن الرحیم"></textarea>
+            </div>
+
+            <div class="result-card">
+                <div class="result-label">ارزش ابجد:</div>
+                <div class="result-value" id="abjad-value">۰</div>
+            </div>
+
+            <div>
+                <div class="result-label">جزئیات محاسبه:</div>
+                <div id="calculation-details" class="details-box">متنی وارد نشده است</div>
+            </div>
+
+            <div class="stats-section">
+                <h4>آمار حروف</h4>
+                <div id="letters-stats-container" class="chars-grid"></div>
+                
+                <h4>متن با هایلایت</h4>
+                <div id="highlighted-text" class="highlighted-text"></div>
+            </div>
+        </div>
+
+        <!-- تب دوم: عدد به حروف -->
+        <div id="number-to-text" class="tab-content">
+            <div class="input-group">
+                <label>عدد خود را وارد کنید (هر خط یک عدد):</label>
+                <textarea id="number-input" rows="3" placeholder="مثال: ۱۲۳&#10;۷۸۹&#10;۳۱۹"></textarea>
+            </div>
+
+            <div class="reverse-output">
+                <div class="letters" id="reverse-result">عددی وارد نشده است</div>
+                <div class="details" id="reverse-details">عددی وارد نشده است</div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            🔤 پشتیبانی از حروف: گ‌چ‌پ‌ژ • ابجد کبیر • وسیط • صغیر
+        </div>
     </div>
 
     <script>
-        // مپینگ ارزش ابجدی
-        const abjadMap = {
-            'ا':1, 'أ':1, 'إ':1, 'آ':1,
-            'ب':2, 'پ':2,
-            'ج':3, 'چ':3,
-            'د':4,
-            'ه':5, 'ة':5,
-            'و':6, 'ؤ':6,
-            'ز':7, 'ژ':7,
-            'ح':8,
-            'ط':9,
-            'ی':10, 'ي':10, 'ى':10, 'ئ':10,
-            'ك':20, 'ک':20, 'گ':20,
-            'ل':30,
-            'م':40,
-            'ن':50,
-            'س':60,
-            'ع':70,
-            'ف':80,
-            'ص':90,
-            'ق':100,
-            'ر':200,
-            'ش':300,
-            'ت':400,
-            'ث':500,
-            'خ':600,
-            'ذ':700,
-            'ض':800,
-            'ظ':900,
-            'غ':1000
-        };
+        // ==================== منطق محاسباتی ====================
+        // تبدیل اعداد انگلیسی به فارسی
+        function persianizeNumerals(str) {
+            return str.replace(/0/gi, "۰")
+                     .replace(/1/gi, "۱")
+                     .replace(/2/gi, "۲")
+                     .replace(/3/gi, "۳")
+                     .replace(/4/gi, "۴")
+                     .replace(/5/gi, "۵")
+                     .replace(/6/gi, "۶")
+                     .replace(/7/gi, "۷")
+                     .replace(/8/gi, "۸")
+                     .replace(/9/gi, "۹");
+        }
 
-        function calculateAbjad() {
-            const input = document.getElementById('abjadInput').value;
-            let sum = 0;
-            for (let i = 0; i < input.length; i++) {
-                const char = input[i];
-                sum += abjadMap[char] || 0;
+        // برجسته کردن کاراکتر خاص در متن
+        function highlightCharacter(text, char) {
+            const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(escapedChar, 'g');
+            const cleanText = text.replace(/<span style="color: red;">|<\/span>/g, "");
+            const highlighted = cleanText.replace(regex, '<span style="color: red;">$&</span>');
+            return highlighted;
+        }
+
+        // ابجد کبیر
+        function calc(text) {
+            text = String(text);
+            var result = { n: 0, desc: "" };
+            if (text == null) return result;
+            var cleanChars = "";
+            var charCount = 0;
+            
+            for (var i = 0; i < text.length; i++) {
+                var charValue = 0;
+                switch (text.charAt(i)) {
+                    case 'ا': case 'آ': case 'أ': case 'إ': charValue = 1; break;
+                    case 'ب': case 'پ': charValue = 2; break;
+                    case 'ج': case 'چ': charValue = 3; break;
+                    case 'د': charValue = 4; break;
+                    case 'ه': charValue = 5; break;
+                    case 'و': case 'ؤ': charValue = 6; break;
+                    case 'ز': case 'ژ': charValue = 7; break;
+                    case 'ح': charValue = 8; break;
+                    case 'ط': charValue = 9; break;
+                    case 'ی': case 'ي': case 'ئ': charValue = 10; break;
+                    case 'ک': case 'ك': case 'گ': charValue = 20; break;
+                    case 'ل': charValue = 30; break;
+                    case 'م': charValue = 40; break;
+                    case 'ن': charValue = 50; break;
+                    case 'س': charValue = 60; break;
+                    case 'ع': charValue = 70; break;
+                    case 'ف': charValue = 80; break;
+                    case 'ص': charValue = 90; break;
+                    case 'ق': charValue = 100; break;
+                    case 'ر': charValue = 200; break;
+                    case 'ش': charValue = 300; break;
+                    case 'ت': case 'ة': charValue = 400; break;
+                    case 'ث': charValue = 500; break;
+                    case 'خ': charValue = 600; break;
+                    case 'ذ': charValue = 700; break;
+                    case 'ض': charValue = 800; break;
+                    case 'ظ': charValue = 900; break;
+                    case 'غ': charValue = 1000; break;
+                }
+                
+                if (charValue !== 0) {
+                    if (result.desc !== "") result.desc += " + ";
+                    result.desc += "[" + text.charAt(i) + " = " + persianizeNumerals(charValue.toString()) + "]";
+                    result.n += charValue;
+                    cleanChars += text.charAt(i);
+                    charCount++;
+                }
             }
-            document.getElementById('result').innerText = 'نتیجه: ' + sum;
+            result.cleanChars = cleanChars;
+            result.charCount = charCount;
+            return result;
         }
 
-        function clearInput() {
-            document.getElementById('abjadInput').value = '';
-            document.getElementById('result').innerText = 'نتیجه: ۰';
-        }
-
-        // اتصال رویدادها پس از بارگذاری صفحه
-        window.onload = function() {
-            document.getElementById('calculateBtn').onclick = calculateAbjad;
-            document.getElementById('clearBtn').onclick = clearInput;
+        // ابجد وسیط
+        const abjadVasit = {
+            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,
+            'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,
+            'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,
+            'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28
         };
+
+        function calcVasit(text) {
+            var result = { n: 0, desc: "" };
+            if (text == null) return result;
+            var cleanChars = "";
+            var charCount = 0;
+            for (var i = 0; i < text.length; i++) {
+                var char = text.charAt(i);
+                var charValue = abjadVasit[char] !== undefined ? abjadVasit[char] : 0;
+                if (charValue !== 0) {
+                    if (result.desc !== "") result.desc += " + ";
+                    result.desc += "[" + char + " = " + persianizeNumerals(charValue.toString()) + "]";
+                    result.n += charValue;
+                    cleanChars += char;
+                    charCount++;
+                }
+            }
+            result.cleanChars = cleanChars;
+            result.charCount = charCount;
+            return result;
+        }
+
+        // ابجد صغیر
+        const abjadSaghir = {
+            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,
+            'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,
+            'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,
+            'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4
+        };
+
+        function calcSaghir(text) {
+            var result = { n: 0, desc: "" };
+            if (text == null) return result;
+            var cleanChars = "";
+            var charCount = 0;
+            for (var i = 0; i < text.length; i++) {
+                var char = text.charAt(i);
+                var charValue = abjadSaghir[char] !== undefined ? abjadSaghir[char] : 0;
+                if (charValue !== 0) {
+                    if (result.desc !== "") result.desc += " + ";
+                    result.desc += "[" + char + " = " + persianizeNumerals(charValue.toString()) + "]";
+                    result.n += charValue;
+                    cleanChars += char;
+                    charCount++;
+                } else if (charValue === 0 && abjadSaghir.hasOwnProperty(char)) {
+                    if (result.desc !== "") result.desc += " + ";
+                    result.desc += "[" + char + " = ساقط]";
+                }
+            }
+            result.cleanChars = cleanChars;
+            result.charCount = charCount;
+            return result;
+        }
+
+        // تبدیل عدد به حروف ابجد
+        function revcalc(numbers) {
+            var result = { str: "", desc: "" };
+            if (numbers == null) return result;
+            var i = 0;
+            while (i < numbers.length) {
+                var char = "";
+                var valueStr = "";
+                var nextDigit = i != numbers.length - 1 ? numbers[i + 1] : "";
+                var nextNextDigit = i < numbers.length - 2 ? numbers[i + 2] : "";
+                var nextNextNextDigit = i < numbers.length - 3 ? numbers[i + 3] : "";
+                
+                if (nextDigit === "۰") nextDigit = "0";
+                if (nextNextDigit === "۰") nextNextDigit = "0";
+                if (nextNextNextDigit === "۰") nextNextNextDigit = "0";
+                
+                switch (numbers.charAt(i)) {
+                    case '1': case '۱':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") {
+                                if (nextNextNextDigit === "0") { valueStr = "1000"; char = "غ"; i += 4; }
+                                else { valueStr = "100"; char = "ق"; i += 3; }
+                            } else { valueStr = "10"; char = "ی"; i += 2; }
+                        } else { valueStr = "1"; char = "ا"; i++; }
+                        break;
+                    case '2': case '۲':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "200"; char = "ر"; i += 3; }
+                            else { valueStr = "20"; char = "ک(گ)"; i += 2; }
+                        } else { valueStr = "2"; char = "(پ)ب"; i++; }
+                        break;
+                    case '3': case '۳':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "300"; char = "ش"; i += 3; }
+                            else { valueStr = "30"; char = "ل"; i += 2; }
+                        } else { valueStr = "3"; char = "ج(چ)"; i++; }
+                        break;
+                    case '4': case '۴':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "400"; char = "ت"; i += 3; }
+                            else { valueStr = "40"; char = "م"; i += 2; }
+                        } else { valueStr = "4"; char = "د"; i++; }
+                        break;
+                    case '5': case '۵':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "500"; char = "ث"; i += 3; }
+                            else { valueStr = "50"; char = "ن"; i += 2; }
+                        } else { valueStr = "5"; char = "ه"; i++; }
+                        break;
+                    case '6': case '۶':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "600"; char = "خ"; i += 3; }
+                            else { valueStr = "60"; char = "س"; i += 2; }
+                        } else { valueStr = "6"; char = "و"; i++; }
+                        break;
+                    case '7': case '۷':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "700"; char = "ذ"; i += 3; }
+                            else { valueStr = "70"; char = "ع"; i += 2; }
+                        } else { valueStr = "7"; char = "ز"; i++; }
+                        break;
+                    case '8': case '۸':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "800"; char = "ض"; i += 3; }
+                            else { valueStr = "80"; char = "ف"; i += 2; }
+                        } else { valueStr = "8"; char = "ح"; i++; }
+                        break;
+                    case '9': case '۹':
+                        if (nextDigit === "0") {
+                            if (nextNextDigit === "0") { valueStr = "900"; char = "ظ"; i += 3; }
+                            else { valueStr = "90"; char = "ص"; i += 2; }
+                        } else { valueStr = "9"; char = "ط"; i++; }
+                        break;
+                    default: i++; continue;
+                }
+                
+                if (char !== "") {
+                    if (result.desc !== "") result.desc += " + ";
+                    result.desc += "[" + valueStr + " = " + char + "]";
+                    result.str += char;
+                }
+            }
+            return result;
+        }
+
+        // شمارش و مرتب‌سازی کاراکترها
+        function countAndSortCharacters(text) {
+            if (text == null) return new Map();
+            const counts = new Map();
+            for (const char of text) {
+                if (char === ' ') continue;
+                counts.set(char, (counts.get(char) || 0) + 1);
+            }
+            return new Map([...counts.entries()].sort((a, b) => b[1] - a[1]));
+        }
+
+        // نمایش آمار حروف
+        function displayLetterStats(charStats, containerId, sourceTextId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if (!charStats || charStats.size === 0) return;
+            
+            let isFirst = true;
+            let activeElement = null;
+            
+            charStats.forEach((count, char) => {
+                const statElement = document.createElement('div');
+                statElement.className = 'char-cell';
+                statElement.textContent = `${char}: ${persianizeNumerals(count.toString())}`;
+                
+                statElement.addEventListener('click', function(event) {
+                    if (activeElement) activeElement.classList.remove('background-red');
+                    
+                    const sourceText = document.getElementById('text-input').value;
+                    const highlighted = highlightCharacter(sourceText, char);
+                    document.getElementById(sourceTextId).innerHTML = highlighted;
+                    
+                    statElement.classList.add('background-red');
+                    activeElement = statElement;
+                });
+                
+                if (isFirst) {
+                    isFirst = false;
+                    statElement.classList.add('background-red');
+                    activeElement = statElement;
+                    const sourceText = document.getElementById('text-input').value;
+                    const highlighted = highlightCharacter(sourceText, char);
+                    document.getElementById(sourceTextId).innerHTML = highlighted;
+                }
+                
+                container.appendChild(statElement);
+            });
+        }
+
+        // بررسی نیاز به اسکرول
+        function checkScrollNeeded(element) {
+            element.classList.remove('scrollable');
+            if (element.scrollHeight > element.clientHeight) {
+                element.classList.add('scrollable');
+            }
+        }
+
+        // نمایش/مخفی کردن تب‌ها
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            const abjadTypeBox = document.querySelector('.abjad-type-box');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+
+            if (abjadTypeBox) {
+                abjadTypeBox.style.display = tabId === 'text-to-number' ? 'block' : 'none';
+            }
+        }
+
+        // محاسبه ابجد برای تب اول
+        function calculateAbjadFromInput() {
+            const textInput = document.getElementById('text-input').value;
+            const abjadType = document.getElementById('abjad-type').value;
+            let result;
+            
+            if (abjadType === 'saghir') result = calcSaghir(textInput);
+            else if (abjadType === 'vasit') result = calcVasit(textInput);
+            else result = calc(textInput);
+            
+            document.getElementById('abjad-value').textContent = persianizeNumerals(result.n.toString());
+            const detailsElement = document.getElementById('calculation-details');
+            detailsElement.textContent = result.desc || 'متنی وارد نشده است';
+            
+            checkScrollNeeded(detailsElement);
+            
+            if (!textInput.trim()) {
+                document.getElementById('letters-stats-container').innerHTML = '';
+                document.getElementById('highlighted-text').innerHTML = '';
+                return;
+            }
+            
+            const charStats = countAndSortCharacters(result.cleanChars || textInput);
+            displayLetterStats(charStats, 'letters-stats-container', 'highlighted-text');
+        }
+
+        // محاسبه معکوس ابجد برای تب دوم
+        function calculateReverseFromInput() {
+            const numberInputValues = document.getElementById('number-input').value.trim();
+            const lines = numberInputValues.split('\n').filter(line => line.trim() !== '');
+            
+            let allLettersOutput = '';
+            let allDescriptionsOutput = '';
+            
+            if (lines.length === 0) {
+                document.getElementById('reverse-result').textContent = 'عددی وارد نشده است';
+                document.getElementById('reverse-details').textContent = 'عددی وارد نشده است';
+                return;
+            }
+            
+            lines.forEach(line => {
+                const numStr = line.trim();
+                if (numStr) {
+                    const singleAbjadOutput = revcalc(numStr);
+                    allLettersOutput += (singleAbjadOutput.str || `[${numStr}: نامعتبر]`) + (lines.length > 1 ? '\n' : '');
+                    allDescriptionsOutput += (singleAbjadOutput.desc || `[${numStr}: جزئیات ناموجود]`) + (lines.length > 1 ? '\n' : '');
+                }
+            });
+            
+            document.getElementById('reverse-result').innerHTML = allLettersOutput.trim().replace(/\n/g, '<br>') || 'عددی وارد نشده است';
+            document.getElementById('reverse-details').innerHTML = allDescriptionsOutput.trim().replace(/\n/g, '<br>') || 'جزئیاتی برای نمایش وجود ندارد';
+        }
+
+        // رویدادهای صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('text-input').addEventListener('input', calculateAbjadFromInput);
+            document.getElementById('number-input').addEventListener('input', calculateReverseFromInput);
+            
+            document.getElementById('number-input').addEventListener('input', function(e) {
+                let value = e.target.value;
+                let sanitizedValue = value.replace(/[^\d\n]/g, '');
+                if (value !== sanitizedValue) {
+                    const selectionStart = e.target.selectionStart;
+                    const selectionEnd = e.target.selectionEnd;
+                    const diff = value.length - sanitizedValue.length;
+                    e.target.value = sanitizedValue;
+                    e.target.setSelectionRange(selectionStart - diff, selectionEnd - diff);
+                }
+            });
+            
+            document.getElementById('abjad-type').addEventListener('change', calculateAbjadFromInput);
+            
+            calculateAbjadFromInput();
+            calculateReverseFromInput();
+        });
     </script>
 </body>
 </html>
