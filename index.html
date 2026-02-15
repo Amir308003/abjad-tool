@@ -3,250 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه‌گر ابجد | Abjad Calculator</title>
+    <title>محاسبه‌گر ابجد کنزالعلم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --emerald-deep: #064e3b;
-            --emerald-light: #065f46;
-            --gold-primary: #d4af37;
-            --gold-gradient: linear-gradient(135deg, #f59e0b, #d4af37, #b45309);
+            --jade-green: #064e3b;
+            --gold-light: #f59e0b;
+            --gold-dark: #b45309;
+            --bg-silk: #fdfcf9;
         }
 
         body {
             font-family: 'Vazirmatn', sans-serif;
-            background-color: transparent; /* تغییر به شفاف برای هماهنگی با وبلاگ */
-            color: #1a2e1a;
+            background-color: transparent;
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
         }
 
-        .gold-text {
-            background: var(--gold-gradient);
+        .app-container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--bg-silk);
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .inner-border {
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px solid rgba(180, 83, 9, 0.2);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(to bottom, #f59e0b, #d4af37, #b45309);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .card {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            width: 100%;
-            overflow: hidden;
+        .score-box {
+            background: linear-gradient(145deg, #064e3b, #022c22);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3), 0 10px 20px rgba(6, 78, 59, 0.3);
         }
 
-        .tab-btn {
-            transition: all 0.2s;
-            border-bottom: 2px solid transparent;
-        }
-
-        .tab-btn.active {
-            color: var(--emerald-deep);
-            border-bottom-color: var(--gold-primary);
-            background: rgba(6, 78, 59, 0.02);
-        }
-
-        .char-cell {
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 1px solid #e5e7eb;
-            font-size: 0.75rem;
-        }
-
-        .char-cell.active-highlight {
-            background-color: #fee2e2;
-            border-color: #ef4444;
-            color: #b91c1c;
-        }
-
-        .highlighted-char {
-            color: #ef4444;
-            font-weight: bold;
-            background-color: #fee2e2;
-            padding: 0 1px;
-        }
-
-        textarea, select {
+        textarea {
             border: 1px solid #d1d5db !important;
-            width: 100% !important;
+            transition: border-color 0.3s;
         }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
+        textarea:focus {
+            outline: none;
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: var(--gold-primary);
-            border-radius: 10px;
-        }
+
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="w-full max-w-full mx-auto p-1 md:p-2">
-        <div class="card">
-            <!-- Header -->
-            <div class="bg-emerald-900 p-2 text-center">
-                <h1 class="text-lg font-bold gold-text">محاسبه‌گر ابجد</h1>
-            </div>
+    <div class="app-container">
+        <div class="inner-border"></div>
 
-            <!-- Tabs -->
-            <div class="flex border-b border-gray-100 bg-white">
-                <button onclick="switchTab('text-to-num')" id="tab-btn-text" class="tab-btn active flex-1 py-2 text-xs">متن به عدد</button>
-                <button onclick="switchTab('num-to-text')" id="tab-btn-num" class="tab-btn flex-1 py-2 text-xs">عدد به حروف</button>
-            </div>
+        <header class="bg-emerald-950 py-8 px-4 text-center">
+            <h1 id="main-title" class="text-2xl md:text-4xl font-bold gold-gradient-text">محاسبه‌گر ابجد کـنزالعلم</h1>
+        </header>
 
-            <div class="p-3">
-                <!-- Tab 1: Text to Number -->
-                <div id="text-to-num-content" class="space-y-3">
-                    <div class="flex flex-col gap-2">
-                        <select id="abjad-type" class="p-1.5 rounded bg-gray-50 text-xs border">
-                            <option value="kabir">ابجد کبیر (جمل)</option>
-                            <option value="vasit">ابجد وسیط</option>
-                            <option value="saghir">ابجد صغیر</option>
-                        </select>
-                        <textarea id="text-input" class="h-20 p-2 rounded text-sm resize-none" placeholder="متن را اینجا بنویسید..."></textarea>
-                    </div>
-
-                    <!-- Result Display -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="bg-emerald-900 text-white p-3 rounded flex flex-col items-center justify-center">
-                            <span class="text-[10px] opacity-70">مجموع ابجد</span>
-                            <span id="abjad-value" class="text-3xl font-bold text-gold-primary">۰</span>
-                        </div>
-                        <div class="sm:col-span-2 bg-gray-50 border border-gray-100 p-2 rounded">
-                            <span class="text-[10px] text-emerald-700 block mb-1">جزئیات محاسبه:</span>
-                            <div id="calculation-details" class="custom-scrollbar overflow-y-auto max-h-12 text-[11px] leading-relaxed text-gray-600">
-                                -
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="pt-2 border-t border-gray-100">
-                        <div id="letters-stats-container" class="flex flex-wrap gap-1 mb-2">
-                            <!-- Stats -->
-                        </div>
-                        <div id="highlighted-display" class="p-2 bg-white rounded border border-gray-100 text-sm leading-relaxed min-h-[40px] break-words">
-                            -
-                        </div>
-                    </div>
+        <main class="p-5 md:p-8">
+            <div id="view-text" class="space-y-6">
+                <!-- انتخاب نوع ابجد -->
+                <div class="w-full">
+                    <label class="block text-sm font-bold text-emerald-900 mb-2 mr-1">نوع ابجد:</label>
+                    <select id="calc-type" class="w-full p-4 bg-white border border-gray-200 rounded-xl text-base cursor-pointer shadow-sm appearance-none transition-all">
+                        <option value="kabir">ابجد کبیر (جمل)</option>
+                        <option value="vasit">ابجد وسیط</option>
+                        <option value="saghir">ابجد صغیر</option>
+                    </select>
                 </div>
 
-                <!-- Tab 2: Number to Text -->
-                <div id="num-to-text-content" class="hidden space-y-3">
-                    <textarea id="number-input" class="h-20 p-2 rounded text-sm resize-none" placeholder="اعداد را وارد کنید (هر عدد یک خط)..."></textarea>
-                    
-                    <div class="space-y-2">
-                        <div class="p-3 bg-white border border-gold-primary/30 rounded">
-                            <span class="text-[10px] text-emerald-700 block mb-1">معادل حروف:</span>
-                            <div id="reverse-result" class="text-xl font-bold text-emerald-900 break-words">-</div>
-                        </div>
-                        <div class="p-2 bg-gray-50 rounded text-[11px] text-gray-600 italic" id="reverse-details">
-                            -
+                <!-- ورودی متن -->
+                <div class="w-full">
+                    <label class="block text-sm font-bold text-emerald-900 mb-2 mr-1">لطفا متن خود را وارد کنید:</label>
+                    <textarea id="input-text" class="w-full h-32 p-4 text-base text-emerald-900 bg-white rounded-xl shadow-inner resize-none" placeholder=""></textarea>
+                </div>
+
+                <!-- نمایش نتایج -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="score-box col-span-1 rounded-2xl p-6 text-center">
+                        <span class="text-xs text-emerald-200 font-medium block mb-2">ارزش ابجد</span>
+                        <div id="display-score" class="text-5xl font-bold text-white tracking-tighter">۰</div>
+                    </div>
+                    <div class="md:col-span-2 score-box rounded-2xl p-4">
+                        <span class="text-xs text-emerald-200 font-medium block mb-2">جزئیات محاسبه:</span>
+                        <div id="display-steps" class="custom-scroll overflow-y-auto max-h-24 text-sm leading-loose text-emerald-50">
+                            در انتظار ورود عبارت...
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <footer class="bg-gray-50 p-1.5 text-center border-t border-gray-100">
-                <div id="random-hadith" class="text-gray-500 text-[9px] italic">
-                    «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی»
-                </div>
-            </footer>
-        </div>
+        </main>
+
+        <footer class="bg-emerald-900/5 py-4 px-6 border-t border-emerald-100 flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="text-[10px] md:text-xs text-emerald-800 font-bold">
+                ارائه شده توسط: <span class="text-gold-dark">کـنزالعلم - تیم توسعه</span>
+            </div>
+            <!-- اصلاح استایل متن نقل‌قول: حذف کجی و تیره‌تر کردن رنگ -->
+            <div class="text-[10px] text-gray-600 font-medium">
+                «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی»
+            </div>
+        </footer>
     </div>
 
     <script>
-        const abjadKabirMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':20,'ك':20,'گ':20,'ل':30,'م':40,'ن':50,'س':60,'ع':70,'ف':80,'ص':90,'ق':100,'ر':200,'ش':300,'ت':400,'ة':400,'ث':500,'خ':600,'ذ':700,'ض':800,'ظ':900,'غ':1000};
-        const abjadVasitMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28};
-        const abjadSaghirMap = {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4};
+        const abjadMaps = {
+            kabir: {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':20,'ك':20,'گ':20,'ل':30,'م':40,'ن':50,'س':60,'ع':70,'ف':80,'ص':90,'ق':100,'ر':200,'ش':300,'ت':400,'ة':400,'ث':500,'خ':600,'ذ':700,'ض':800,'ظ':900,'غ':1000},
+            vasit: {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28},
+            saghir: {'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4}
+        };
 
-        function p(str) {
+        function toPersian(n) {
             const f = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-            return str.toString().replace(/\d/g, x => f[x]);
+            return n.toString().replace(/\d/g, x => f[x]);
         }
 
-        let activeHighlightChar = null;
-
-        function switchTab(id) {
-            document.getElementById('text-to-num-content').classList.toggle('hidden', id !== 'text-to-num');
-            document.getElementById('num-to-text-content').classList.toggle('hidden', id !== 'num-to-text');
-            document.getElementById('tab-btn-text').classList.toggle('active', id === 'text-to-num');
-            document.getElementById('tab-btn-num').classList.toggle('active', id === 'num-to-text');
-        }
-
-        function calculate() {
-            const txt = document.getElementById('text-input').value;
-            const type = document.getElementById('abjad-type').value;
-            const map = type === 'saghir' ? abjadSaghirMap : (type === 'vasit' ? abjadVasitMap : abjadKabirMap);
+        function processText() {
+            const val = document.getElementById('input-text').value;
+            const mode = document.getElementById('calc-type').value;
+            const map = abjadMaps[mode];
+            let total = 0, steps = [];
             
-            let sum = 0, details = [], counts = {}, cleanText = "";
-            for (let c of txt) {
-                const v = map[c];
-                if (v !== undefined) {
-                    sum += v;
-                    details.push(`${c}:${p(v)}`);
-                    counts[c] = (counts[c] || 0) + 1;
-                    cleanText += c;
-                } else if (c === ' ') {
-                    cleanText += ' ';
+            for (let char of val) {
+                const n = map[char];
+                if (n !== undefined) {
+                    total += n;
+                    steps.push(`<span class="inline-block bg-emerald-100/10 border border-emerald-400/30 px-2 py-0.5 rounded ml-1 mb-1">${char}:${toPersian(n)}</span>`);
                 }
             }
-
-            document.getElementById('abjad-value').textContent = p(sum);
-            document.getElementById('calculation-details').textContent = details.join(' | ') || (txt ? 'کاراکتر معتبری نیست' : '-');
             
-            renderStats(counts, txt);
+            document.getElementById('display-score').textContent = toPersian(total);
+            document.getElementById('display-steps').innerHTML = steps.join(' ') || (val ? 'نویسه معتبری برای محاسبه یافت نشد' : 'در انتظار ورود عبارت...');
         }
 
-        function renderStats(counts, original) {
-            const container = document.getElementById('letters-stats-container');
-            container.innerHTML = '';
-            Object.entries(counts).forEach(([char, count]) => {
-                const btn = document.createElement('div');
-                btn.className = `char-cell px-1.5 py-0.5 rounded ${activeHighlightChar === char ? 'active-highlight' : 'bg-white'}`;
-                btn.innerHTML = `${char} <span class="opacity-40 text-[9px]">${p(count)}</span>`;
-                btn.onclick = () => {
-                    activeHighlightChar = (activeHighlightChar === char) ? null : char;
-                    renderStats(counts, original);
-                };
-                container.appendChild(btn);
-            });
-
-            const display = document.getElementById('highlighted-display');
-            if (activeHighlightChar) {
-                const regex = new RegExp(activeHighlightChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-                display.innerHTML = original.replace(regex, `<span class="highlighted-char">$&</span>`).replace(/\n/g, '<br>');
-            } else {
-                display.textContent = original || '-';
-            }
-        }
-
-        function reverse() {
-            const input = document.getElementById('number-input').value;
-            const nums = input.split('\n').filter(x => x.trim() !== '');
-            const values = [{v:1000,c:'غ'},{v:900,c:'ظ'},{v:800,c:'ض'},{v:700,c:'ذ'},{v:600,c:'خ'},{v:500,c:'ث'},{v:400,c:'ت'},{v:300,c:'ش'},{v:200,c:'ر'},{v:100,c:'ق'},{v:90,c:'ص'},{v:80,c:'ف'},{v:70,c:'ع'},{v:60,c:'س'},{v:50,c:'ن'},{v:40,c:'م'},{v:30,c:'ل'},{v:20,c:'ک'},{v:10,c:'ی'},{v:9,c:'ط'},{v:8,c:'ح'},{v:7,c:'ز'},{v:6,c:'و'},{v:5,c:'ه'},{v:4,c:'د'},{v:3,c:'ج'},{v:2,c:'ب'},{v:1,c:'ا'}];
-            
-            let resTxt = [], resDet = [];
-            nums.forEach(nStr => {
-                let n = parseInt(nStr.replace(/[^\d]/g, ''));
-                if (n > 0) {
-                    let s = "";
-                    for (let item of values) { while (n >= item.v) { s += item.c; n -= item.v; } }
-                    resTxt.push(s);
-                    resDet.push(`${p(nStr)}: ${s}`);
-                }
-            });
-            document.getElementById('reverse-result').textContent = resTxt.join(' | ') || '-';
-            document.getElementById('reverse-details').innerHTML = resDet.join('<br>') || '-';
-        }
-
-        document.getElementById('text-input').addEventListener('input', calculate);
-        document.getElementById('abjad-type').addEventListener('change', calculate);
-        document.getElementById('number-input').addEventListener('input', reverse);
+        document.getElementById('input-text').addEventListener('input', processText);
+        document.getElementById('calc-type').addEventListener('change', processText);
     </script>
 </body>
 </html>
