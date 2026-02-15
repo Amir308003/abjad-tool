@@ -2,779 +2,412 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>محاسبه‌گر ابجد | طلایی و سبز</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه‌گر ابجد | Abjad Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+        :root {
+            --emerald-deep: #064e3b;
+            --emerald-light: #065f46;
+            --gold-primary: #d4af37;
+            --gold-gradient: linear-gradient(135deg, #f59e0b, #d4af37, #b45309);
         }
 
         body {
-            background: linear-gradient(165deg, #0a3a2e 0%, #1a4f3a 100%);
-            min-height: 100vh;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f0f4f0;
+            background-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
+            color: #1a2e1a;
         }
 
-        .container {
-            width: 100%;
-            max-width: 550px;
-            background: #fef9e7;
-            border-radius: 40px 40px 0 0;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
-            padding: 28px 22px 40px 22px;
-            border: 2px solid #c9a43b;
-            border-bottom: none;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
+        .gold-border {
+            border: 2px solid transparent;
+            border-image: var(--gold-gradient);
+            border-image-slice: 1;
         }
 
-        /* تزئینات طلایی */
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 12px;
-            background: linear-gradient(90deg, #c9a43b, #f5d76e, #c9a43b);
-            z-index: 10;
-        }
-
-        .container::after {
-            content: "⚘";
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 3rem;
-            color: rgba(201, 164, 59, 0.1);
-            transform: rotate(15deg);
-            z-index: 0;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #0a3a2e;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 3px solid #c9a43b;
-            padding-bottom: 18px;
-            position: relative;
-            z-index: 5;
-        }
-
-        h1 span {
-            background: linear-gradient(145deg, #c9a43b, #b38f2a);
-            color: white;
-            font-size: 2.2rem;
-            width: 65px;
-            height: 65px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 30px 10px 30px 10px;
-            box-shadow: 0 10px 20px -5px rgba(10, 58, 46, 0.4);
-            transform: rotate(5deg);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            background: #e8e0d0;
-            padding: 6px;
-            border-radius: 50px;
-            position: relative;
-            z-index: 5;
-            border: 1px solid #c9a43b;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 16px 5px;
-            border: none;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: transparent;
-            color: #2d5a4a;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(145deg, #0a3a2e, #1d5f45);
-            color: #f5d76e;
-            box-shadow: 0 5px 15px rgba(10, 58, 46, 0.4);
-            font-weight: 800;
+        .gold-text {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .card {
-            background: #ffffffdd;
-            backdrop-filter: blur(5px);
-            border-radius: 30px;
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border: 2px solid #c9a43b;
-            position: relative;
-            z-index: 5;
-            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(6, 78, 59, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
-        .card:hover {
-            border-color: #b38f2a;
-            box-shadow: 0 15px 30px -8px rgba(201, 164, 59, 0.3);
+        .tab-btn.active {
+            background: var(--emerald-deep);
+            color: var(--gold-primary);
+            box-shadow: 0 4px 15px rgba(6, 78, 59, 0.3);
         }
 
-        .label {
-            display: block;
-            margin-bottom: 12px;
-            color: #0a3a2e;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 0.3px;
+        .char-cell {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
         }
 
-        select, textarea, input {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e0d5b9;
-            border-radius: 25px;
-            font-size: 1rem;
-            transition: all 0.25s;
-            background: white;
-            font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
-            color: #1e2e2a;
+        .char-cell:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold-primary);
         }
 
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23c9a43b' viewBox='0 0 20 20'%3E%3Cpath stroke='%23c9a43b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-            background-position: left 1rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em;
-            padding-left: 3.2rem;
-            appearance: none;
-            font-weight: 500;
+        .char-cell.active-highlight {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        .highlighted-char {
+            color: #ef4444;
+            font-weight: bold;
+            background-color: #fee2e2;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        textarea, select, input {
+            border: 1px solid #d1d5db;
+            transition: all 0.3s;
         }
 
         textarea:focus, select:focus, input:focus {
             outline: none;
-            border-color: #c9a43b;
-            box-shadow: 0 0 0 5px rgba(201, 164, 59, 0.2);
+            border-color: var(--gold-primary);
+            ring: 2px rgba(212, 175, 55, 0.2);
         }
 
-        .result-badge {
-            background: linear-gradient(135deg, #0a3a2e, #1f6a4b);
-            color: white;
-            border-radius: 60px;
-            padding: 30px 25px;
-            text-align: center;
-            margin: 20px 0;
-            border: 2px solid #f5d76e;
-            box-shadow: 0 15px 30px -5px #0a3a2e80;
-            position: relative;
-            z-index: 5;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .result-badge .value {
-            font-size: 4.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            text-shadow: 3px 3px 0 #c9a43b;
-            color: #f9e785;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-
-        .result-badge .label {
-            color: #f5d76e;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .details-box {
-            background: #f3efdf;
-            border-radius: 25px;
-            padding: 18px;
-            margin: 15px 0 5px;
-            max-height: 110px;
-            overflow-y: auto;
-            font-size: 1rem;
-            color: #1e3e34;
-            direction: ltr;
-            text-align: left;
-            border: 2px solid #c9a43b;
-            font-weight: 500;
-        }
-
-        .stats-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: #f3efdf;
-            padding: 20px;
-            border-radius: 28px;
-            margin: 18px 0;
-            border: 2px solid #c9a43b;
-        }
-
-        .char-pill {
-            background: white;
-            padding: 10px 22px;
-            border-radius: 40px;
-            border: 2px solid #c9a43b;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-            color: #0a3a2e;
-        }
-
-        .char-pill:hover {
-            border-color: #b38f2a;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -5px #c9a43b80;
-        }
-
-        .char-pill.active {
-            background: linear-gradient(145deg, #c9a43b, #f5d76e);
-            color: #0a3a2e;
-            border-color: #0a3a2e;
-            font-weight: 800;
-        }
-
-        .highlight-box {
-            background: #f3efdf;
-            padding: 22px;
-            border-radius: 28px;
-            border: 2px solid #c9a43b;
-            min-height: 100px;
-            line-height: 2.2;
-            font-size: 1.3rem;
-            margin-top: 15px;
-            color: #1e3e34;
-            font-weight: 500;
-        }
-
-        .highlight-box span[style*="color: red"] {
-            color: #0a3a2e !important;
-            font-weight: 800;
-            background: #f5d76e;
-            padding: 5px 12px;
-            border-radius: 40px;
-            border: 2px solid #c9a43b;
-        }
-
-        .reverse-card {
-            background: #f3efdf;
-            border-radius: 30px;
-            padding: 25px;
-            border: 2px solid #c9a43b;
-        }
-
-        .reverse-letters {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #0a3a2e;
-            text-align: center;
-            margin: 20px 0;
-            background: white;
-            padding: 25px;
-            border-radius: 50px;
-            border: 3px dashed #c9a43b;
-            word-break: break-word;
-        }
-
-        .reverse-details {
-            color: #1e3e34;
-            font-size: 1rem;
-            direction: ltr;
-            text-align: left;
-            background: white;
-            padding: 20px;
-            border-radius: 25px;
-            border: 2px solid #c9a43b;
-            font-weight: 500;
-        }
-
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #c9a43b;
-            font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 2px dashed #c9a43b;
-            font-weight: 600;
-            position: relative;
-            z-index: 5;
-        }
-
-        /* بهینه‌سازی کامل برای موبایل */
-        @media (max-width: 480px) {
-            .container {
-                padding: 22px 15px 30px 15px;
-                border-radius: 30px 30px 0 0;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-                gap: 10px;
-            }
-            
-            h1 span {
-                font-size: 1.8rem;
-                width: 55px;
-                height: 55px;
-            }
-            
-            .tab-btn {
-                padding: 14px 3px;
-                font-size: 0.9rem;
-            }
-            
-            .card {
-                padding: 18px;
-            }
-            
-            .result-badge .value {
-                font-size: 3.5rem;
-            }
-            
-            .char-pill {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .reverse-letters {
-                font-size: 2rem;
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            h1 span {
-                font-size: 1.5rem;
-                width: 48px;
-                height: 48px;
-            }
-            
-            .tab-btn {
-                font-size: 0.8rem;
-                padding: 12px 2px;
-            }
-            
-            .result-badge .value {
-                font-size: 2.8rem;
-            }
-            
-            .details-box {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* ارتفاع کامل صفحه */
-        html, body {
-            height: 100%;
-        }
-
-        /* اسکرول اختصاصی */
-        .details-box::-webkit-scrollbar {
-            width: 8px;
-        }
-        .details-box::-webkit-scrollbar-track {
-            background: #f3efdf;
-            border-radius: 10px;
-        }
-        .details-box::-webkit-scrollbar-thumb {
-            background: #c9a43b;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--emerald-light);
             border-radius: 10px;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>
-            <span>🔢</span>
-            محاسبه‌گر ابجد
-        </h1>
+<body class="min-h-screen py-10 px-4">
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('text-to-number')">📝 متن به عدد</button>
-            <button class="tab-btn" onclick="showTab('number-to-text')">🔢 عدد به حروف</button>
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold gold-text mb-2">محاسبه‌گر هوشمند ابجد</h1>
+            <p class="text-emerald-900 opacity-80">استخراج اسرار اعداد از میان کلمات</p>
+            <div class="h-1 w-24 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto mt-4"></div>
+        </header>
+
+        <!-- Main Card -->
+        <div class="card overflow-hidden">
+            <!-- Tabs -->
+            <div class="flex border-b border-emerald-100 bg-emerald-50/50">
+                <button onclick="switchTab('text-to-num')" id="tab-btn-text" class="tab-btn active flex-1 py-4 font-bold transition-all">تبدیل متن به عدد</button>
+                <button onclick="switchTab('num-to-text')" id="tab-btn-num" class="tab-btn flex-1 py-4 font-bold transition-all">تبدیل عدد به حروف</button>
+            </div>
+
+            <div class="p-6 md:p-8">
+                <!-- Tab 1: Text to Number -->
+                <div id="text-to-num-content" class="space-y-6">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <label class="block text-emerald-900 font-bold mb-2">متن خود را وارد کنید:</label>
+                            <textarea id="text-input" class="w-full h-32 p-4 rounded-xl resize-none text-lg" placeholder="مثلاً: علی"></textarea>
+                        </div>
+                        <div class="md:w-48">
+                            <label class="block text-emerald-900 font-bold mb-2">نوع ابجد:</label>
+                            <select id="abjad-type" class="w-full p-3 rounded-xl bg-white cursor-pointer">
+                                <option value="kabir">ابجد کبیر (جمل)</option>
+                                <option value="vasit">ابجد وسیط</option>
+                                <option value="saghir">ابجد صغیر</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-1 bg-emerald-900 text-white p-6 rounded-2xl flex flex-col items-center justify-center shadow-xl relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-2 opacity-10">
+                                <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor"><path d="M19,3H5C3.89,3 3,3.89 3,5V19C3,20.11 3.89,21 5,21H19C20.11,21 21,20.11 21,19V5C21,3.89 20.11,3 19,3M19,19H5V5H19V19M11.5,7H13V10.5H16.5V12H13V15.5H11.5V12H8V10.5H11.5V7Z"/></svg>
+                            </div>
+                            <span class="text-emerald-200 text-sm mb-1 uppercase tracking-wider">حاصل محاسبه</span>
+                            <span id="abjad-value" class="text-5xl font-bold text-gold-primary">۰</span>
+                        </div>
+                        <div class="md:col-span-2 bg-white border border-emerald-100 p-4 rounded-2xl">
+                            <span class="text-xs text-emerald-600 block mb-2">روند محاسبه:</span>
+                            <div id="calculation-details" class="custom-scrollbar overflow-y-auto max-h-24 text-sm leading-relaxed text-emerald-800">
+                                منتظر ورود متن...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics & Highlight -->
+                    <div class="space-y-4 pt-4 border-t border-emerald-50">
+                        <h3 class="font-bold text-emerald-900 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-gold-primary rounded-full"></span>
+                            آمار حروف و تفکیک
+                        </h3>
+                        <div id="letters-stats-container" class="flex flex-wrap gap-2">
+                            <!-- Stats will be injected here -->
+                        </div>
+                        <div id="highlighted-display" class="p-4 bg-emerald-50/30 rounded-xl min-h-[60px] border border-dashed border-emerald-200 text-lg leading-loose">
+                            <!-- Highlighted text will be injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Number to Text -->
+                <div id="num-to-text-content" class="hidden space-y-6">
+                    <div>
+                        <label class="block text-emerald-900 font-bold mb-2">اعداد مورد نظر را وارد کنید (هر عدد در یک خط):</label>
+                        <textarea id="number-input" class="w-full h-32 p-4 rounded-xl resize-none text-lg" placeholder="مثلاً: 110"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 bg-white border-2 gold-border rounded-xl">
+                            <span class="text-xs text-emerald-600 block mb-2 font-bold">معادل حروف (ابجد کبیر):</span>
+                            <div id="reverse-result" class="text-3xl font-bold text-emerald-900 min-h-[40px]">
+                                -
+                            </div>
+                        </div>
+                        <div class="p-6 bg-emerald-50 rounded-xl">
+                            <span class="text-xs text-emerald-600 block mb-2 font-bold">آنالیز عدد:</span>
+                            <div id="reverse-details" class="text-sm text-emerald-800 leading-relaxed min-h-[40px]">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer/Hadith Section -->
+            <footer class="bg-emerald-900 p-4 text-center">
+                <div id="random-hadith" class="text-emerald-100 text-xs italic opacity-90">
+                    «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی؛ علم گنج بزرگی است که تمام نمی‌شود.»
+                </div>
+            </footer>
         </div>
-
-        <!-- تب اول: متن به عدد -->
-        <div id="text-to-number" class="tab-content" style="display: block;">
-            <div class="card">
-                <div class="label">📌 نوع ابجد:</div>
-                <select id="abjad-type">
-                    <option value="kabir">ابجد کبیر</option>
-                    <option value="vasit">ابجد وسیط</option>
-                    <option value="saghir">ابجد صغیر</option>
-                </select>
-            </div>
-
-            <div class="card">
-                <div class="label">✍️ متن خود را وارد کنید:</div>
-                <textarea id="text-input" rows="3" placeholder="مثال: بسم الله الرحمن الرحیم"></textarea>
-            </div>
-
-            <div class="result-badge">
-                <div class="label">نتیجه ابجد</div>
-                <div class="value" id="abjad-value">۰</div>
-            </div>
-
-            <div class="card">
-                <div class="label">📋 جزئیات محاسبه:</div>
-                <div id="calculation-details" class="details-box">متنی وارد نشده است</div>
-            </div>
-
-            <div class="card">
-                <div class="label">📊 آمار حروف (کلیک کنید):</div>
-                <div id="letters-stats-container" class="stats-grid"></div>
-                <div class="label" style="margin-top: 20px;">✨ متن هایلایت شده:</div>
-                <div id="highlighted-text" class="highlight-box"></div>
-            </div>
-        </div>
-
-        <!-- تب دوم: عدد به حروف -->
-        <div id="number-to-text" class="tab-content" style="display: none;">
-            <div class="card">
-                <div class="label">🔢 عدد خود را وارد کنید (هر خط یک عدد):</div>
-                <textarea id="number-input" rows="3" placeholder="مثال:&#10;۱۲۳&#10;۷۸۹&#10;۳۱۹"></textarea>
-            </div>
-            <div class="reverse-card">
-                <div class="reverse-letters" id="reverse-result">عددی وارد نشده</div>
-                <div class="reverse-details" id="reverse-details">منتظر ورود عدد...</div>
-            </div>
-        </div>
-
-        <div class="footer">
-            ⚡ پشتیبانی از حروف فارسی (گ‌چ‌پ‌ژ) • ابجد کبیر • وسیط • صغیر
+        
+        <div class="mt-8 text-center text-emerald-700 text-sm opacity-60">
+            طراحی شده با الهام از سنت‌های اصیل اسلامی و تکنولوژی مدرن
         </div>
     </div>
 
     <script>
-        // ==================== توابع کمکی ====================
+        // --- Core Abjad Logic ---
+
+        const abjadKabirMap = {
+            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1,
+            'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3, 'د': 4, 'ه': 5, 'و': 6, 'ؤ': 6,
+            'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9, 'ی': 10, 'ي': 10, 'ئ': 10,
+            'ک': 20, 'ك': 20, 'گ': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60,
+            'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100, 'ر': 200, 'ش': 300,
+            'ت': 400, 'ة': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800,
+            'ظ': 900, 'غ': 1000
+        };
+
+        const abjadVasitMap = {
+            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1, 'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3,
+            'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9, 'ی': 10,
+            'ي': 10, 'ک': 11, 'ك': 11, 'گ': 11, 'ل': 12, 'م': 13, 'ن': 14,
+            'س': 15, 'ع': 16, 'ف': 17, 'ص': 18, 'ق': 19, 'ر': 20, 'ش': 21,
+            'ت': 22, 'ث': 23, 'خ': 24, 'ذ': 25, 'ض': 26, 'ظ': 27, 'غ': 28
+        };
+
+        const abjadSaghirMap = {
+            'ا': 1, 'آ': 1, 'أ': 1, 'إ': 1, 'ب': 2, 'پ': 2, 'ج': 3, 'چ': 3,
+            'د': 4, 'ه': 5, 'و': 6, 'ؤ': 6, 'ز': 7, 'ژ': 7, 'ح': 8, 'ط': 9,
+            'ی': 10, 'ي': 10, 'ئ': 10, 'ک': 8, 'ك': 8, 'گ': 8, 'ل': 6,
+            'م': 4, 'ن': 2, 'س': 0, 'ع': 10, 'ف': 8, 'ص': 6, 'ق': 4,
+            'ر': 8, 'ش': 0, 'ت': 4, 'ة': 4, 'ث': 8, 'خ': 0, 'ذ': 4,
+            'ض': 8, 'ظ': 0, 'غ': 4
+        };
+
         function persianizeNumerals(str) {
-            return str.replace(/0/g, "۰").replace(/1/g, "۱").replace(/2/g, "۲").replace(/3/g, "۳")
-                      .replace(/4/g, "۴").replace(/5/g, "۵").replace(/6/g, "۶").replace(/7/g, "۷")
-                      .replace(/8/g, "۸").replace(/9/g, "۹");
+            const p = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return str.toString().replace(/\d/g, x => p[x]);
         }
 
-        function highlightCharacter(text, char) {
-            const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(escapedChar, 'g');
-            const cleanText = text.replace(/<span style="color: red;">|<\/span>/g, "");
-            return cleanText.replace(regex, '<span style="color: red;">$&</span>');
-        }
+        function calculateAbjad(text, type = 'kabir') {
+            const map = type === 'saghir' ? abjadSaghirMap : (type === 'vasit' ? abjadVasitMap : abjadKabirMap);
+            let sum = 0;
+            let details = [];
+            let cleanChars = "";
 
-        // ==================== ابجد کبیر ====================
-        function calc(text) {
-            text = String(text);
-            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
-            if (!text) return result;
-
-            for (let i = 0; i < text.length; i++) {
-                let charValue = 0;
-                const char = text.charAt(i);
-
-                switch (char) {
-                    case 'ا': case 'آ': case 'أ': case 'إ': charValue = 1; break;
-                    case 'ب': case 'پ': charValue = 2; break;
-                    case 'ج': case 'چ': charValue = 3; break;
-                    case 'د': charValue = 4; break;
-                    case 'ه': case 'ة': charValue = 5; break;
-                    case 'و': case 'ؤ': charValue = 6; break;
-                    case 'ز': case 'ژ': charValue = 7; break;
-                    case 'ح': charValue = 8; break;
-                    case 'ط': charValue = 9; break;
-                    case 'ی': case 'ي': case 'ئ': case 'ى': charValue = 10; break;
-                    case 'ک': case 'ك': case 'گ': charValue = 20; break;
-                    case 'ل': charValue = 30; break;
-                    case 'م': charValue = 40; break;
-                    case 'ن': charValue = 50; break;
-                    case 'س': charValue = 60; break;
-                    case 'ع': charValue = 70; break;
-                    case 'ف': charValue = 80; break;
-                    case 'ص': charValue = 90; break;
-                    case 'ق': charValue = 100; break;
-                    case 'ر': charValue = 200; break;
-                    case 'ش': charValue = 300; break;
-                    case 'ت': charValue = 400; break;
-                    case 'ث': charValue = 500; break;
-                    case 'خ': charValue = 600; break;
-                    case 'ذ': charValue = 700; break;
-                    case 'ض': charValue = 800; break;
-                    case 'ظ': charValue = 900; break;
-                    case 'غ': charValue = 1000; break;
+            for (let char of text) {
+                if (char === ' ') {
+                    cleanChars += " ";
+                    continue;
                 }
-
-                if (charValue !== 0) {
-                    if (result.desc) result.desc += " + ";
-                    result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
-                    result.n += charValue;
-                    result.cleanChars += char;
-                    result.charCount++;
+                const val = map[char];
+                if (val !== undefined) {
+                    sum += val;
+                    const displayVal = val === 0 ? "ساقط" : persianizeNumerals(val);
+                    details.push(`[${char} = ${displayVal}]`);
+                    cleanChars += char;
                 }
             }
-            return result;
+
+            return { n: sum, desc: details.join(" + "), cleanChars };
         }
 
-        // ==================== ابجد وسیط ====================
-        const abjadVasit = {
-            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,'و':6,
-            'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ک':11,'ك':11,'گ':11,'ل':12,
-            'م':13,'ن':14,'س':15,'ع':16,'ف':17,'ص':18,'ق':19,'ر':20,'ش':21,
-            'ت':22,'ث':23,'خ':24,'ذ':25,'ض':26,'ظ':27,'غ':28
-        };
+        function reverseAbjad(numStr) {
+            let n = parseInt(numStr);
+            if (isNaN(n) || n <= 0) return { str: "", desc: "" };
 
-        function calcVasit(text) {
-            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
-            if (!text) return result;
-            for (let i = 0; i < text.length; i++) {
-                const char = text.charAt(i);
-                const charValue = abjadVasit[char] || 0;
-                if (charValue !== 0) {
-                    if (result.desc) result.desc += " + ";
-                    result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
-                    result.n += charValue;
-                    result.cleanChars += char;
-                    result.charCount++;
+            const values = [
+                {v: 1000, c: 'غ'}, {v: 900, c: 'ظ'}, {v: 800, c: 'ض'}, {v: 700, c: 'ذ'},
+                {v: 600, c: 'خ'}, {v: 500, c: 'ث'}, {v: 400, c: 'ت'}, {v: 300, c: 'ش'},
+                {v: 200, c: 'ر'}, {v: 100, c: 'ق'}, {v: 90, c: 'ص'}, {v: 80, c: 'ف'},
+                {v: 70, c: 'ع'}, {v: 60, c: 'س'}, {v: 50, c: 'ن'}, {v: 40, c: 'م'},
+                {v: 30, c: 'ل'}, {v: 20, c: 'ک'}, {v: 10, c: 'ی'}, {v: 9, c: 'ط'},
+                {v: 8, c: 'ح'}, {v: 7, c: 'ز'}, {v: 6, c: 'و'}, {v: 5, c: 'ه'},
+                {v: 4, c: 'د'}, {v: 3, c: 'ج'}, {v: 2, c: 'ب'}, {v: 1, c: 'ا'}
+            ];
+
+            let resultStr = "";
+            let resultDesc = [];
+            let tempN = n;
+
+            for (let item of values) {
+                while (tempN >= item.v) {
+                    resultStr += item.c;
+                    resultDesc.push(`[${persianizeNumerals(item.v)} = ${item.c}]`);
+                    tempN -= item.v;
                 }
             }
-            return result;
+
+            return { str: resultStr, desc: resultDesc.join(" + ") };
         }
 
-        // ==================== ابجد صغیر ====================
-        const abjadSaghir = {
-            'ا':1,'آ':1,'أ':1,'إ':1,'ب':2,'پ':2,'ج':3,'چ':3,'د':4,'ه':5,
-            'و':6,'ؤ':6,'ز':7,'ژ':7,'ح':8,'ط':9,'ی':10,'ي':10,'ئ':10,
-            'ک':8,'ك':8,'گ':8,'ل':6,'م':4,'ن':2,'س':0,'ع':10,'ف':8,'ص':6,
-            'ق':4,'ر':8,'ش':0,'ت':4,'ة':4,'ث':8,'خ':0,'ذ':4,'ض':8,'ظ':0,'غ':4
-        };
+        // --- UI Logic ---
 
-        function calcSaghir(text) {
-            let result = { n: 0, desc: "", cleanChars: "", charCount: 0 };
-            if (!text) return result;
-            for (let i = 0; i < text.length; i++) {
-                const char = text.charAt(i);
-                const charValue = abjadSaghir[char];
-                if (charValue !== undefined) {
-                    if (result.desc) result.desc += " + ";
-                    if (charValue === 0) {
-                        result.desc += `[${char} = ساقط]`;
-                    } else {
-                        result.desc += `[${char} = ${persianizeNumerals(charValue.toString())}]`;
-                        result.n += charValue;
-                        result.cleanChars += char;
-                        result.charCount++;
-                    }
-                }
+        let activeHighlightChar = null;
+
+        function switchTab(tabId) {
+            const textContent = document.getElementById('text-to-num-content');
+            const numContent = document.getElementById('num-to-text-content');
+            const textBtn = document.getElementById('tab-btn-text');
+            const numBtn = document.getElementById('tab-btn-num');
+
+            if (tabId === 'text-to-num') {
+                textContent.classList.remove('hidden');
+                numContent.classList.add('hidden');
+                textBtn.classList.add('active');
+                numBtn.classList.remove('active');
+            } else {
+                textContent.classList.add('hidden');
+                numContent.classList.remove('hidden');
+                textBtn.classList.remove('active');
+                numBtn.classList.add('active');
             }
-            return result;
         }
 
-        // ==================== تبدیل عدد به حروف ====================
-        function revcalc(numbers) {
-            let result = { str: "", desc: "" };
-            if (!numbers) return result;
-
-            let i = 0;
-            while (i < numbers.length) {
-                let char = "";
-                let valueStr = "";
-                const current = numbers.charAt(i);
-                const next = (i < numbers.length - 1) ? numbers[i + 1].replace('۰', '0') : '';
-                const next2 = (i < numbers.length - 2) ? numbers[i + 2].replace('۰', '0') : '';
-                const next3 = (i < numbers.length - 3) ? numbers[i + 3].replace('۰', '0') : '';
-                const digit = current.replace('۰', '0');
-
-                switch (digit) {
-                    case '1':
-                        if (next === '0' && next2 === '0' && next3 === '0') { valueStr = "1000"; char = "غ"; i += 4; }
-                        else if (next === '0' && next2 === '0') { valueStr = "100"; char = "ق"; i += 3; }
-                        else if (next === '0') { valueStr = "10"; char = "ی"; i += 2; }
-                        else { valueStr = "1"; char = "ا"; i++; }
-                        break;
-                    case '2':
-                        if (next === '0' && next2 === '0') { valueStr = "200"; char = "ر"; i += 3; }
-                        else if (next === '0') { valueStr = "20"; char = "ک(گ)"; i += 2; }
-                        else { valueStr = "2"; char = "ب(پ)"; i++; }
-                        break;
-                    case '3':
-                        if (next === '0' && next2 === '0') { valueStr = "300"; char = "ش"; i += 3; }
-                        else if (next === '0') { valueStr = "30"; char = "ل"; i += 2; }
-                        else { valueStr = "3"; char = "ج(چ)"; i++; }
-                        break;
-                    case '4':
-                        if (next === '0' && next2 === '0') { valueStr = "400"; char = "ت"; i += 3; }
-                        else if (next === '0') { valueStr = "40"; char = "م"; i += 2; }
-                        else { valueStr = "4"; char = "د"; i++; }
-                        break;
-                    case '5':
-                        if (next === '0' && next2 === '0') { valueStr = "500"; char = "ث"; i += 3; }
-                        else if (next === '0') { valueStr = "50"; char = "ن"; i += 2; }
-                        else { valueStr = "5"; char = "ه"; i++; }
-                        break;
-                    case '6':
-                        if (next === '0' && next2 === '0') { valueStr = "600"; char = "خ"; i += 3; }
-                        else if (next === '0') { valueStr = "60"; char = "س"; i += 2; }
-                        else { valueStr = "6"; char = "و"; i++; }
-                        break;
-                    case '7':
-                        if (next === '0' && next2 === '0') { valueStr = "700"; char = "ذ"; i += 3; }
-                        else if (next === '0') { valueStr = "70"; char = "ع"; i += 2; }
-                        else { valueStr = "7"; char = "ز(ژ)"; i++; }
-                        break;
-                    case '8':
-                        if (next === '0' && next2 === '0') { valueStr = "800"; char = "ض"; i += 3; }
-                        else if (next === '0') { valueStr = "80"; char = "ف"; i += 2; }
-                        else { valueStr = "8"; char = "ح"; i++; }
-                        break;
-                    case '9':
-                        if (next === '0' && next2 === '0') { valueStr = "900"; char = "ظ"; i += 3; }
-                        else if (next === '0') { valueStr = "90"; char = "ص"; i += 2; }
-                        else { valueStr = "9"; char = "ط"; i++; }
-                        break;
-                    default: i++; continue;
-                }
-
-                if (char) {
-                    if (result.desc) result.desc += " + ";
-                    result.desc += `[${valueStr} = ${char}]`;
-                    result.str += char;
-                }
-            }
-            return result;
-        }
-
-        // ==================== آمار حروف ====================
-        function countAndSortCharacters(text) {
-            if (!text) return new Map();
-            const counts = new Map();
-            for (const char of text) {
-                if (char === ' ') continue;
-                counts.set(char, (counts.get(char) || 0) + 1);
-            }
-            return new Map([...counts.entries()].sort((a, b) => b[1] - a[1]));
-        }
-
-        function displayLetterStats(charStats, containerId, sourceTextId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            if (!charStats || charStats.size === 0) return;
-
-            let activeElement = null;
-            charStats.forEach((count, char) => {
-                const pill = document.createElement('div');
-                pill.className = 'char-pill';
-                pill.textContent = `${char} : ${persianizeNumerals(count.toString())}`;
-
-                pill.addEventListener('click', () => {
-                    if (activeElement) activeElement.classList.remove('active');
-                    pill.classList.add('active');
-                    activeElement = pill;
-                    const sourceText = document.getElementById('text-input').value;
-                    document.getElementById(sourceTextId).innerHTML = highlightCharacter(sourceText, char);
-                });
-
-                container.appendChild(pill);
-            });
-        }
-
-        // ==================== نمایش تب‌ها ====================
-        function showTab(tabId) {
-            document.getElementById('text-to-number').style.display = tabId === 'text-to-number' ? 'block' : 'none';
-            document.getElementById('number-to-text').style.display = tabId === 'number-to-text' ? 'block' : 'none';
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            setTimeout(sendHeightToParent, 100);
-        }
-
-        // ==================== محاسبات اصلی ====================
-        function calculateAbjadFromInput() {
+        function updateTextToNum() {
             const text = document.getElementById('text-input').value;
             const type = document.getElementById('abjad-type').value;
+            const result = calculateAbjad(text, type);
 
-            let result;
-            if (type === 'saghir') result = calcSaghir(text);
-            else if (type === 'vasit') result = calcVasit(text);
-            else result = calc(text);
+            document.getElementById('abjad-value').textContent = persianizeNumerals(result.n);
+            document.getElementById('calculation-details').textContent = result.desc || (text ? "کاراکتر معتبری یافت نشد" : "منتظر ورود متن...");
+            
+            updateStats(result.cleanChars);
+        }
 
-            document.getElementById('abjad-value').textContent = persianizeNumerals(result.n.toString());
-            const detailsEl = document.getElementById('calculation-details');
-            detailsEl.textContent = result.desc || 'متنی وارد نشده است';
-
-            if (!text.trim()) {
-                document.getElementById('letters-stats-container').innerHTML = '';
-                document.getElementById('highlighted-text').innerHTML = '';
+        function updateStats(cleanChars) {
+            const container = document.getElementById('letters-stats-container');
+            const display = document.getElementById('highlighted-display');
+            const originalText = document.getElementById('text-input').value;
+            
+            if (!originalText.trim()) {
+                container.innerHTML = '';
+                display.innerHTML = '<span class="opacity-30 italic">متن در اینجا ظاهر می‌شود...</span>';
                 return;
             }
 
-            const charStats = countAndSortCharacters(result.cleanChars || text);
-            displayLetterStats(charStats, 'letters-stats-container', 'highlighted-text');
-            setTimeout(() => {
-                const firstPill = document.querySelector('.char-pill');
-                if (firstPill) firstPill.click();
-            }, 100);
-        }
+            const counts = {};
+            for (let char of cleanChars) {
+                if (char === ' ') continue;
+                counts[char] = (counts[char] || 0) + 1;
+            }
 
-        function calculateReverseFromInput() {
-            const input = document.getElementById('number-input').value.trim();
-            const lines = input.split('\n').filter(l => l.trim());
-            let letters = [], details = [];
-            lines.forEach(line => {
-                const result = revcalc(line.trim());
-                letters.push(result.str || '❌ نامعتبر');
-                details.push(result.desc || 'بدون جزئیات');
-            });
-            document.getElementById('reverse-result').innerHTML = letters.join('<br>') || 'عددی وارد نشده';
-            document.getElementById('reverse-details').innerHTML = details.join('<br>') || 'منتظر ورود عدد...';
-        }
-
-        // ==================== تنظیم ارتفاع iframe ====================
-        function sendHeightToParent() {
-            const height = document.documentElement.scrollHeight;
-            parent.postMessage({ type: 'resize', height: height }, '*');
-        }
-
-        // ==================== رویدادها ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('text-input').addEventListener('input', calculateAbjadFromInput);
-            document.getElementById('abjad-type').addEventListener('change', calculateAbjadFromInput);
-            document.getElementById('number-input').addEventListener('input', function(e) {
-                let value = e.target.value;
-                value = value.replace(/[^\d\n]/g, '');
-                if (value !== e.target.value) {
-                    const pos = e.target.selectionStart;
-                    e.target.value = value;
-                    e.target.setSelectionRange(pos, pos);
+            const sortedChars = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+            
+            container.innerHTML = '';
+            sortedChars.forEach(([char, count], index) => {
+                const cell = document.createElement('div');
+                cell.className = 'char-cell bg-white px-3 py-1 rounded-lg shadow-sm text-sm font-bold flex items-center gap-2';
+                if (activeHighlightChar === char || (activeHighlightChar === null && index === 0)) {
+                    cell.classList.add('active-highlight');
+                    if (activeHighlightChar === null) activeHighlightChar = char;
                 }
-                calculateReverseFromInput();
+                
+                cell.innerHTML = `<span>${char}</span><span class="text-xs opacity-50 border-r pr-2 mr-1">${persianizeNumerals(count)}</span>`;
+                cell.onclick = () => {
+                    activeHighlightChar = char;
+                    renderHighlightedText(originalText);
+                    document.querySelectorAll('.char-cell').forEach(c => c.classList.remove('active-highlight'));
+                    cell.classList.add('active-highlight');
+                };
+                container.appendChild(cell);
             });
-            window.addEventListener('load', sendHeightToParent);
-            window.addEventListener('resize', sendHeightToParent);
-            calculateAbjadFromInput();
-            calculateReverseFromInput();
-        });
+
+            renderHighlightedText(originalText);
+        }
+
+        function renderHighlightedText(text) {
+            const display = document.getElementById('highlighted-display');
+            if (!text) return;
+            
+            if (!activeHighlightChar) {
+                display.textContent = text;
+                return;
+            }
+
+            const escapedChar = activeHighlightChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(escapedChar, 'g');
+            const html = text.replace(regex, `<span class="highlighted-char">${activeHighlightChar}</span>`);
+            display.innerHTML = html.replace(/\n/g, '<br>');
+        }
+
+        function updateNumToText() {
+            const input = document.getElementById('number-input').value;
+            const lines = input.split('\n').filter(l => l.trim() !== '');
+            
+            let finalStr = [];
+            let finalDesc = [];
+
+            lines.forEach(line => {
+                const num = line.replace(/[^\d]/g, '');
+                if (num) {
+                    const res = reverseAbjad(num);
+                    if (res.str) {
+                        finalStr.push(res.str);
+                        finalDesc.push(`عدد ${persianizeNumerals(num)}: ${res.desc}`);
+                    }
+                }
+            });
+
+            document.getElementById('reverse-result').innerHTML = finalStr.join(' | ') || '-';
+            document.getElementById('reverse-details').innerHTML = finalDesc.join('<br>') || '-';
+        }
+
+        // Listeners
+        document.getElementById('text-input').addEventListener('input', updateTextToNum);
+        document.getElementById('abjad-type').addEventListener('change', updateTextToNum);
+        document.getElementById('number-input').addEventListener('input', updateNumToText);
+
+        // Initialization
+        window.onload = () => {
+            updateTextToNum();
+        };
     </script>
 </body>
 </html>
