@@ -18,27 +18,29 @@
             font-family: 'Vazirmatn', sans-serif;
             background-color: transparent;
             margin: 0;
-            padding: 10px;
+            padding: 8px; /* کاهش پدینگ بدنه برای موبایل */
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .app-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 600px; /* کاهش حداکثر عرض برای جمع‌وجورتر شدن */
             background: var(--bg-silk);
             border: 2px solid #d4af37;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-radius: 16px; /* گردی ملایم‌تر برای موبایل */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             position: relative;
         }
 
         .inner-border {
             position: absolute;
-            top: 8px; left: 8px; right: 8px; bottom: 8px;
-            border: 1px solid rgba(180, 83, 9, 0.2);
-            border-radius: 15px;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border: 1px solid rgba(180, 83, 9, 0.15);
+            border-radius: 12px;
             pointer-events: none;
         }
 
@@ -50,22 +52,22 @@
 
         .score-box {
             background: linear-gradient(145deg, #064e3b, #022c22);
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3), 0 10px 20px rgba(6, 78, 59, 0.3);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
         }
 
         textarea {
             border: 1px solid #d1d5db !important;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         textarea:focus {
             outline: none;
             border-color: #d4af37 !important;
-            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
 
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 5px; }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -73,50 +75,47 @@
     <div class="app-container">
         <div class="inner-border"></div>
 
-        <header class="bg-emerald-950 py-8 px-4 text-center">
-            <h1 id="main-title" class="text-2xl md:text-4xl font-bold gold-gradient-text">محاسبه‌گر ابجد کـنزالعلم</h1>
+        <header class="bg-emerald-950 py-5 px-4 text-center">
+            <h1 id="main-title" class="text-xl md:text-3xl font-bold gold-gradient-text">محاسبه‌گر ابجد کـنزالعلم</h1>
         </header>
 
-        <main class="p-5 md:p-8">
-            <div id="view-text" class="space-y-6">
-                <!-- انتخاب نوع ابجد -->
-                <div class="w-full">
-                    <label class="block text-sm font-bold text-emerald-900 mb-2 mr-1">نوع ابجد:</label>
-                    <select id="calc-type" class="w-full p-4 bg-white border border-gray-200 rounded-xl text-base cursor-pointer shadow-sm appearance-none transition-all">
-                        <option value="kabir">ابجد کبیر (جمل)</option>
-                        <option value="vasit">ابجد وسیط</option>
-                        <option value="saghir">ابجد صغیر</option>
-                    </select>
-                </div>
+        <main class="p-4 md:p-6 space-y-4">
+            <!-- انتخاب نوع ابجد -->
+            <div class="w-full">
+                <label class="block text-xs font-bold text-emerald-900 mb-1.5 mr-1">نوع ابجد:</label>
+                <select id="calc-type" class="w-full p-3 bg-white border border-gray-200 rounded-lg text-sm cursor-pointer shadow-sm appearance-none transition-all">
+                    <option value="kabir">ابجد کبیر (جمل)</option>
+                    <option value="vasit">ابجد وسیط</option>
+                    <option value="saghir">ابجد صغیر</option>
+                </select>
+            </div>
 
-                <!-- ورودی متن -->
-                <div class="w-full">
-                    <label class="block text-sm font-bold text-emerald-900 mb-2 mr-1">لطفا متن خود را وارد کنید:</label>
-                    <textarea id="input-text" class="w-full h-32 p-4 text-base text-emerald-900 bg-white rounded-xl shadow-inner resize-none" placeholder=""></textarea>
-                </div>
+            <!-- ورودی متن -->
+            <div class="w-full">
+                <label class="block text-xs font-bold text-emerald-900 mb-1.5 mr-1">لطفا متن خود را وارد کنید:</label>
+                <textarea id="input-text" class="w-full h-24 p-3 text-sm text-emerald-900 bg-white rounded-lg shadow-inner resize-none" placeholder=""></textarea>
+            </div>
 
-                <!-- نمایش نتایج -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="score-box col-span-1 rounded-2xl p-6 text-center">
-                        <span class="text-xs text-emerald-200 font-medium block mb-2">ارزش ابجد</span>
-                        <div id="display-score" class="text-5xl font-bold text-white tracking-tighter">۰</div>
-                    </div>
-                    <div class="md:col-span-2 score-box rounded-2xl p-4">
-                        <span class="text-xs text-emerald-200 font-medium block mb-2">جزئیات محاسبه:</span>
-                        <div id="display-steps" class="custom-scroll overflow-y-auto max-h-24 text-sm leading-loose text-emerald-50">
-                            در انتظار ورود عبارت...
-                        </div>
+            <!-- نمایش نتایج - بهینه‌سازی چیدمان برای موبایل -->
+            <div class="grid grid-cols-1 gap-3">
+                <div class="score-box rounded-xl p-4 flex justify-between items-center px-6">
+                    <span class="text-[10px] text-emerald-200 font-medium">ارزش ابجد:</span>
+                    <div id="display-score" class="text-3xl font-bold text-white tracking-tighter">۰</div>
+                </div>
+                <div class="score-box rounded-xl p-3">
+                    <span class="text-[10px] text-emerald-200 font-medium block mb-1">جزئیات محاسبه:</span>
+                    <div id="display-steps" class="custom-scroll overflow-y-auto max-h-20 text-[11px] leading-relaxed text-emerald-50">
+                        در انتظار ورود عبارت...
                     </div>
                 </div>
             </div>
         </main>
 
-        <footer class="bg-emerald-900/5 py-4 px-6 border-t border-emerald-100 flex flex-col md:flex-row justify-between items-center gap-3">
-            <div class="text-[10px] md:text-xs text-emerald-800 font-bold">
+        <footer class="bg-emerald-900/5 py-3 px-4 border-t border-emerald-100 flex flex-col gap-1 text-center">
+            <div class="text-[9px] md:text-xs text-emerald-800 font-bold">
                 ارائه شده توسط: <span class="text-gold-dark">کـنزالعلم - تیم توسعه</span>
             </div>
-            <!-- اصلاح استایل متن نقل‌قول: حذف کجی و تیره‌تر کردن رنگ -->
-            <div class="text-[10px] text-gray-600 font-medium">
+            <div class="text-[9px] text-gray-600 font-medium">
                 «اَلْعِلْمُ کَنْزٌ عَظیمٌ لا یَفْنی»
             </div>
         </footer>
@@ -144,12 +143,12 @@
                 const n = map[char];
                 if (n !== undefined) {
                     total += n;
-                    steps.push(`<span class="inline-block bg-emerald-100/10 border border-emerald-400/30 px-2 py-0.5 rounded ml-1 mb-1">${char}:${toPersian(n)}</span>`);
+                    steps.push(`<span class="inline-block bg-emerald-100/10 border border-emerald-400/30 px-1.5 py-0.5 rounded ml-1 mb-1">${char}:${toPersian(n)}</span>`);
                 }
             }
             
             document.getElementById('display-score').textContent = toPersian(total);
-            document.getElementById('display-steps').innerHTML = steps.join(' ') || (val ? 'نویسه معتبری برای محاسبه یافت نشد' : 'در انتظار ورود عبارت...');
+            document.getElementById('display-steps').innerHTML = steps.join(' ') || (val ? 'نویسه معتبری یافت نشد' : 'در انتظار ورود عبارت...');
         }
 
         document.getElementById('input-text').addEventListener('input', processText);
